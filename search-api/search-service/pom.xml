@@ -37,8 +37,8 @@
     <play2.version>2.7.2</play2.version>
     <play2.plugin.version>1.0.0-rc5</play2.plugin.version>
     <sbt-compiler.plugin.version>1.0.0</sbt-compiler.plugin.version>
-    <scala.major.version>2.11</scala.major.version>
-    <scala.version>2.11.8</scala.version>
+    <scala.major.version>2.12</scala.major.version>
+    <scala.version>2.12.11</scala.version>
   </properties>
 
   <dependencies>
@@ -88,8 +88,8 @@
     </dependency>
     <dependency>
       <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_2.11</artifactId>
-      <version>3.0.8</version>
+      <artifactId>scalatest_2.12</artifactId>
+      <version>3.0.6</version>
       <scope>test</scope>
     </dependency>
     <dependency>

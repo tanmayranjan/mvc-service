@@ -8,7 +8,6 @@ import play.api.mvc.ControllerComponents
 import utils.{ActorNames, ApiId}
 
 import scala.concurrent.ExecutionContext
-
 class SearchController @Inject()(@Named(ActorNames.SEARCH_ACTOR) searchActor: ActorRef, cc: ControllerComponents, actorSystem: ActorSystem)(implicit exec: ExecutionContext) extends SearchBaseController(cc) {
 
     val mgr: SearchManager = new SearchManager()

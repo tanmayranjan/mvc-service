@@ -11,7 +11,7 @@ import org.sunbird.common.exception.ResponseCode
 import org.sunbird.common.{DateUtils, JsonUtils, Platform}
 import org.sunbird.telemetry.TelemetryParams
 import play.api.mvc._
-
+import collection.JavaConverters._
 import scala.collection.JavaConversions._
 import scala.collection.JavaConverters._
 import scala.concurrent.{ExecutionContext, Future}
@@ -19,7 +19,7 @@ import scala.concurrent.{ExecutionContext, Future}
 abstract class SearchBaseController(protected val cc: ControllerComponents)(implicit exec: ExecutionContext) extends AbstractController(cc) {
 
     val DEFAULT_CHANNEL_ID = Platform.config.getString("channel.default");
-    val API_VERSION = "3.0"
+    val API_VERSION = "1.0"
     
     def requestBody()(implicit request: Request[AnyContent]) = {
         val body = request.body.asJson.getOrElse("{}").toString
@@ -38,7 +38,10 @@ abstract class SearchBaseController(protected val cc: ControllerComponents)(impl
                 }else 
                     collection.mutable.HashMap[String, Object]().asJava
             }
-        }).flatten.toMap.asJava
+        }).reduce((a, b) => {
+            a.putAll(b)
+            return a
+        })
     }
 
     def getRequest(input: java.util.Map[String, AnyRef], context: java.util.Map[String, AnyRef], operation: String): org.sunbird.common.dto.Request = {

@@ -58,7 +58,30 @@ public class SearchActor extends SearchBaseActor {
                         return ERROR(request.getOperation(), failure);
                     }
                 }, getContext().dispatcher());
-            } else if (StringUtils.equalsIgnoreCase("COUNT", operation)) {
+            }
+            else if (StringUtils.equalsIgnoreCase("MVC_SEARCH", operation)) {
+                SearchDTO searchDTO = getSearchDTO(request);
+                processor.initializeSearchIndex("mvc_compositesearch_v1");
+                Future<Map<String, Object>> searchResult = processor.processSearch(searchDTO, true);
+                return searchResult.map(new Mapper<Map<String, Object>, Response>() {
+                    @Override
+                    public Response apply(Map<String, Object> lstResult) {
+                        String mode = (String) request.getRequest().get(SearchConstants.mode);
+                        if (StringUtils.isNotBlank(mode) && StringUtils.equalsIgnoreCase("collection", mode)) {
+                            return OK(getCollectionsResult(lstResult, processor, request));
+                        } else {
+                            return OK(lstResult);
+                        }
+                    }
+                }, getContext().dispatcher()).recoverWith(new Recover<Future<Response>>() {
+                    @Override
+                    public Future<Response> recover(Throwable failure) throws Throwable {
+                        TelemetryManager.error("Unable to process the request:: Request: " + JsonUtils.serialize(request), failure);
+                        return ERROR(request.getOperation(), failure);
+                    }
+                }, getContext().dispatcher());
+            }
+            else if (StringUtils.equalsIgnoreCase("COUNT", operation)) {
                 Map<String, Object> countResult = processor.processCount(getSearchDTO(request));
                 if (null != countResult.get("count")) {
                     Integer count = (Integer) countResult.get("count");

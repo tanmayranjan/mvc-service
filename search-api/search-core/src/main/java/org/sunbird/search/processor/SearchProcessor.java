@@ -37,7 +37,6 @@ import org.sunbird.search.util.SearchConstants;
 import org.sunbird.telemetry.logger.TelemetryManager;
 import scala.concurrent.ExecutionContext;
 import scala.concurrent.Future;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -46,12 +45,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SearchProcessor {
-
 	private ObjectMapper mapper = new ObjectMapper();
 	private static final String ASC_ORDER = "asc";
 	private static final String AND = "AND";
 	private boolean relevanceSort = false;
-
+    String indexname = "";
 	public SearchProcessor() {
 		ElasticSearchUtil.initialiseESClient(SearchConstants.COMPOSITE_SEARCH_INDEX,
 				Platform.config.getString("search.es_conn_info"));
@@ -59,15 +57,20 @@ public class SearchProcessor {
 	
 	public SearchProcessor(String indexName) {
 	}
-
+public void initializeSearchIndex(String index) {
+		indexname = index;
+	ElasticSearchUtil.initialiseESClient(indexname,
+			Platform.config.getString("search.es_conn_info"));
+}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Future<Map<String, Object>> processSearch(SearchDTO searchDTO, boolean includeResults)
 			throws Exception {
 		List<Map<String, Object>> groupByFinalList = new ArrayList<Map<String, Object>>();
 		SearchSourceBuilder query = processSearchQuery(searchDTO, groupByFinalList, true);
-		Future<SearchResponse> searchResponse = ElasticSearchUtil.search(
-				SearchConstants.COMPOSITE_SEARCH_INDEX,
-				query);
+			Future<SearchResponse> searchResponse = ElasticSearchUtil.search(
+					indexname != "" ? indexname : SearchConstants.COMPOSITE_SEARCH_INDEX,
+					query);
+
 
 		return searchResponse.map(new Mapper<SearchResponse, Map<String, Object>>() {
 			public Map<String, Object> apply(SearchResponse searchResult) {
@@ -92,7 +95,7 @@ public class SearchProcessor {
 					}
 
 				}
-				resp.put("count", (int) searchResult.getHits().getTotalHits());
+				resp.put("count",  (int)searchResult.getHits().getTotalHits().value != 0  ?  (int)searchResult.getHits().getTotalHits().value : ((ArrayList)resp.get("results")).size());
 				return resp;
 			}
 		}, ExecutionContext.Implicits$.MODULE$.global());

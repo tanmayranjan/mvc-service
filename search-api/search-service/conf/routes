@@ -5,6 +5,7 @@ GET		/health						controllers.HealthController.health()
 
 #POST    /v2/search						controllers.SearchController.search()
 POST    /v3/search						controllers.SearchController.search()
+POST    /v3/mvcsearch                   controllers.SearchController.mvcsearch()
 POST    /v2/search/count				controllers.SearchController.count()
 POST    /v3/count						controllers.SearchController.count()
 #POST    /v2/metrics						controllers.MetricsController.search()

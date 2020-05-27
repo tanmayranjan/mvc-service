@@ -53,7 +53,11 @@ public class SearchManager {
         Future<Response> getRes = getSearchResponse(request, actor);
         return getRes;
     }
-
+    public Future<Response> mvcsearch(Request request, ActorRef actor) {
+        request.setOperation(SearchOperations.MVC_SEARCH.name());
+        Future<Response> getRes = getSearchResponse(request, actor);
+        return getRes;
+    }
     public Future<Response> count(Request request, ActorRef actor) {
         request.setOperation(SearchOperations.COUNT.name());
         Future<Response> getRes = getSearchResponse(request, actor);
@@ -78,6 +82,12 @@ public class SearchManager {
                                     return (Future<Response>) Futures.successful(response);
                                 } else if (request.getOperation()
                                         .equalsIgnoreCase(SearchOperations.INDEX_SEARCH.name())) {
+                                    Future<Response> searchResult = getSearchResponse(response, request, actor);
+                                    writeTelemetryLog(request, response);
+                                    return searchResult;
+                                }
+                                else if (request.getOperation()
+                                        .equalsIgnoreCase(SearchOperations.MVC_SEARCH.name())) {
                                     Future<Response> searchResult = getSearchResponse(response, request, actor);
                                     writeTelemetryLog(request, response);
                                     return searchResult;

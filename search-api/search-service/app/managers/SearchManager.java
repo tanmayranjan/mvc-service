@@ -400,7 +400,8 @@ public class SearchManager {
                             prop = mapper.readValue((String) value, List.class);
                         }
                         if (CollectionUtils.isNotEmpty(prop))
-                            content.put(contentTagKey, prop.get(0));
+                           // content.put(contentTagKey, prop.get(0));
+                        content.put(contentTagKey, prop);
                     } catch (IOException e) {
                         content.put(contentTagKey, (String) content.get(contentTagKey));
                     }

@@ -61,7 +61,7 @@ public class SearchActor extends SearchBaseActor {
             }
             else if (StringUtils.equalsIgnoreCase("MVC_SEARCH", operation)) {
                 SearchDTO searchDTO = getSearchDTO(request);
-                processor.initializeSearchIndex("mvc_compositesearch_v1");
+                processor.initializeSearchIndex("mvc-search");
                 Future<Map<String, Object>> searchResult = processor.processSearch(searchDTO, true);
                 return searchResult.map(new Mapper<Map<String, Object>, Response>() {
                     @Override

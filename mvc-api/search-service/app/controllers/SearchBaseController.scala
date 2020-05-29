@@ -53,15 +53,8 @@ abstract class SearchBaseController(protected val cc: ControllerComponents)(impl
             result.setId(apiId)
             setResponseEnvelope(result)
             val resultStr = JsonUtils.serialize(result)
-            val resultStrtemp = "{\"id\":\"ekstep.mvc-composite-search.search\",\"ver\":\"1.0\",\"ts\":\"2020-05-28T16:40:04Z+05:30\",\"params\":{\"resmsgid\":\"32c98c1a-4327-4509-ab15-fe24027ce155\",\"msgid\":null,\"err\":null,\"status\":\"successful\",\"errmsg\":null},\"responseCode\":\"OK\",\"result\":{\"count\":2,\"content\":[{\"identifier\":\"do_2123125146963066881117\",\"subject\":\"English\",\"downloadUrl\":\"https://ekstep-public-qa.s3-ap-south-1.amazonaws.com/ecar_files/do_2123125146963066881114/my-textbook-1_1539087291666_do_2123125146963066881114_4.0_spine.ecar\",\"description\":\"My textbook 2\",\"mimeType\":\"application/vnd.ekstep.content-collection\",\"medium\":[\"Hindi\",\"English\",\"Urdu\"],\"objectType\":\"Content\",\"gradeLevel\":\"Class 1\",\"framework\":\"NCERT\",\"name\":\"My textbook 2\",\"lastUpdatedOn\":\"2018-10-09T12:14:48.558+0000\",\"contentType\":\"TextBook\",\"resourceType\":\"Book\",\"status\":\"Live\"},{\"identifier\":\"do_2123125146963066881118\",\"subject\":\"English\",\"downloadUrl\":\"https://ekstep-public-qa.s3-ap-south-1.amazonaws.com/ecar_files/do_2123125146963066881114/my-textbook-1_1539087291666_do_2123125146963066881114_4.0_spine.ecar\",\"description\":\"My textbook 2\",\"mimeType\":\"application/vnd.ekstep.content-collection\",\"medium\":[\"Hindi\",\"Tamil\",\"English\"],\"objectType\":\"Content\",\"gradeLevel\":\"Class 1\",\"framework\":\"NCERT\",\"name\":\"My textbook 2\",\"lastUpdatedOn\":\"2018-10-09T12:14:48.558+0000\",\"contentType\":\"TextBook\",\"resourceType\":\"Book\",\"status\":\"Live\"}]}}";
-            /*result.getResponseCode match {
+            result.getResponseCode match {
                 case ResponseCode.OK => play.api.mvc.Results.Ok(resultStr).as("application/json")
-                case ResponseCode.CLIENT_ERROR => play.api.mvc.Results.BadRequest(resultStr).as("application/json")
-                case ResponseCode.RESOURCE_NOT_FOUND => play.api.mvc.Results.NotFound(resultStr).as("application/json")
-                case _ => play.api.mvc.Results.InternalServerError(resultStr).as("application/json")
-            }*/
-            ResponseCode.OK match {
-                case ResponseCode.OK => play.api.mvc.Results.Ok(resultStrtemp).as("application/json")
                 case ResponseCode.CLIENT_ERROR => play.api.mvc.Results.BadRequest(resultStr).as("application/json")
                 case ResponseCode.RESOURCE_NOT_FOUND => play.api.mvc.Results.NotFound(resultStr).as("application/json")
                 case _ => play.api.mvc.Results.InternalServerError(resultStr).as("application/json")

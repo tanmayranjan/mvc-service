@@ -9,7 +9,7 @@
   </parent>
 
   <groupId>org.sunbird</groupId>
-  <artifactId>search-service</artifactId>
+  <artifactId>mvc-service</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>play2</packaging>
 

@@ -1,2 +1,2 @@
-# knowledge-platform
-Repository for Knowledge Platform - 2.0
+# MVC Service
+Repository for MVC Service - 1.0

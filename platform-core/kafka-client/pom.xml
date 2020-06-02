@@ -9,7 +9,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>kafka-client</artifactId>
-scala
     <properties>
         <kafka.client.version>1.1.0</kafka.client.version>
     </properties>

@@ -16,8 +16,8 @@ import org.elasticsearch.client.*;
 import org.sunbird.search.util.SearchConstants;
 import org.sunbird.telemetry.logger.TelemetryManager;
 import org.elasticsearch.action.ActionListener;
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
-import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.client.indices.CreateIndexRequest;
+import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 // import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -168,7 +168,7 @@ public class ElasticSearchUtil {
 			if (StringUtils.isNotBlank(settings))
 				createRequest.settings(Settings.builder().loadFromSource(settings, XContentType.JSON));
 			if (StringUtils.isNotBlank(documentType) && StringUtils.isNotBlank(mappings))
-				createRequest.mapping(documentType, mappings, XContentType.JSON);
+				createRequest.mapping( mappings, XContentType.JSON);
 			CreateIndexResponse createIndexResponse = client.indices().create(createRequest,RequestOptions.DEFAULT);
 
 			response = createIndexResponse.isAcknowledged();

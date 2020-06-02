@@ -22,7 +22,7 @@
     <modules>
         <module>search-core</module>
         <module>search-actors</module>
-        <module>search-service</module>
+        <module>mvc-service</module>
     </modules>
 
 

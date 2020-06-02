@@ -49,26 +49,24 @@ public class SearchProcessor {
 	private static final String ASC_ORDER = "asc";
 	private static final String AND = "AND";
 	private boolean relevanceSort = false;
-    String indexname = "";
+
 	public SearchProcessor() {
-		ElasticSearchUtil.initialiseESClient(SearchConstants.COMPOSITE_SEARCH_INDEX,
+		ElasticSearchUtil.initialiseESClient(SearchConstants.MVC_SEARCH_INDEX,
 				Platform.config.getString("search.es_conn_info"));
 	}
 	
 	public SearchProcessor(String indexName) {
+		ElasticSearchUtil.initialiseESClient(indexName,
+				Platform.config.getString("search.es_conn_info"));
 	}
-public void initializeSearchIndex(String index) {
-		indexname = index;
-	ElasticSearchUtil.initialiseESClient(indexname,
-			Platform.config.getString("search.es_conn_info"));
-}
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Future<Map<String, Object>> processSearch(SearchDTO searchDTO, boolean includeResults)
 			throws Exception {
 		List<Map<String, Object>> groupByFinalList = new ArrayList<Map<String, Object>>();
 		SearchSourceBuilder query = processSearchQuery(searchDTO, groupByFinalList, true);
 			Future<SearchResponse> searchResponse = ElasticSearchUtil.search(
-					indexname != "" ? indexname : SearchConstants.COMPOSITE_SEARCH_INDEX,
+					 SearchConstants.MVC_SEARCH_INDEX,
 					query);
 
 

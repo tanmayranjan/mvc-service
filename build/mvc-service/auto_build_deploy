@@ -32,10 +32,10 @@ node('build-slave') {
 
  //           stage Package
                 dir('search-api') {
-                    sh 'mvn play2:dist -pl search-service'
+                    sh 'mvn play2:dist -pl mvc-service'
                 }
                 sh('chmod 777 build/build.sh')
-                sh("build/build.sh ${build_tag} ${"search-service"} ${env.NODE_NAME} ${hub_org}")
+                sh("build/build.sh ${build_tag} ${"mvc-service"} ${env.NODE_NAME} ${hub_org}")
    
  //           stage('ArchiveArtifacts')
                 archiveArtifacts "metadata.json"

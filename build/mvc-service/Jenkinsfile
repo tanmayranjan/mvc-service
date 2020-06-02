@@ -37,7 +37,7 @@ node('build-slave') {
             }
 
             stage('Package') {
-                dir('search-api') {
+                dir('mvc-api') {
                     sh 'mvn play2:dist -pl mvc-service'
                 }
                 sh('chmod 777 build/build.sh')

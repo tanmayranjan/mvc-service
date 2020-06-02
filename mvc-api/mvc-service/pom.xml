@@ -24,13 +24,13 @@
     </repository>
   </repositories>
   <pluginRepositories>
-    <pluginRepository>
-      <id>typesafe-releases-plugins</id>
-      <url>https://repo.typesafe.com/typesafe/releases/</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </pluginRepository>
+<!--    <pluginRepository>-->
+<!--      <id>typesafe-releases-plugins</id>-->
+<!--      <url>https://repo.typesafe.com/typesafe/releases/</url>-->
+<!--      <snapshots>-->
+<!--        <enabled>false</enabled>-->
+<!--      </snapshots>-->
+<!--    </pluginRepository>-->
   </pluginRepositories>
 
   <properties>

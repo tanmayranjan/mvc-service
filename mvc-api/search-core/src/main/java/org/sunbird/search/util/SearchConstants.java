@@ -4,7 +4,7 @@ import org.sunbird.common.Platform;
 
 public class SearchConstants {
     public static String COMPOSITE_SEARCH_INDEX = Platform.config.hasPath("compositesearch.index.name") ? Platform.config.getString("compositesearch.index.name"): "compositesearch";
-    public static String MVC_SEARCH_INDEX = "mvc-search";
+    public static String MVC_SEARCH_INDEX = "mvc-content";
     public static final String COMPOSITE_SEARCH_INDEX_TYPE = "cs";
     public static final String OPERATION_CREATE = "CREATE";
     public static final String OPERATION_UPDATE = "UPDATE";

@@ -19,7 +19,7 @@ import java.util.Map;
 public class HealthActor extends BaseActor {
     @Override
     public Future<Response> onReceive(Request request) throws Throwable {
-        ElasticSearchUtil.initialiseESClient(SearchConstants.COMPOSITE_SEARCH_INDEX, Platform.config.getString("search.es_conn_info"));
+        ElasticSearchUtil.initialiseESClient(SearchConstants.MVC_SEARCH_INDEX, Platform.config.getString("search.es_conn_info"));
         return checkIndexHealth();
     }
 
@@ -28,7 +28,7 @@ public class HealthActor extends BaseActor {
         Response response = new Response();
         boolean index = false;
         try {
-            index = ElasticSearchUtil.isIndexExists(SearchConstants.COMPOSITE_SEARCH_INDEX);
+            index = ElasticSearchUtil.isIndexExists(SearchConstants.MVC_SEARCH_INDEX);
             if (index == true) {
                 checks.add(getResponseData(response, true, "", ""));
                 response.put("checks", checks);

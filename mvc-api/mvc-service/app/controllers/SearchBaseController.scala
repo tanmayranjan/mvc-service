@@ -5,12 +5,14 @@ import java.util.UUID
 
 import akka.actor.ActorRef
 import akka.pattern.Patterns
+import managers.Postman
 import org.apache.commons.lang3.StringUtils
 import org.sunbird.common.dto.{RequestParams, Response, ResponseHandler}
 import org.sunbird.common.exception.ResponseCode
 import org.sunbird.common.{DateUtils, JsonUtils, Platform}
 import org.sunbird.telemetry.TelemetryParams
 import play.api.mvc._
+
 import collection.JavaConverters._
 import scala.collection.JavaConversions._
 import scala.collection.JavaConverters._
@@ -98,8 +100,11 @@ abstract class SearchBaseController(protected val cc: ControllerComponents)(impl
                 val requestObj: AnyRef = requestMap.get("request")
                 if (null != requestObj) try {
                     val strRequest: String = JsonUtils.serialize(requestObj)
-                    val map: java.util.Map[String, AnyRef] =  JsonUtils.deserialize(strRequest, classOf[java.util.Map[String, Object]])
-                    if (null != map && !map.isEmpty) request.setRequest(map)
+                    var map: java.util.Map[String, AnyRef] = JsonUtils.deserialize(strRequest, classOf[java.util.Map[String, Object]])
+                    if (null != map && !map.isEmpty) {
+                        map = Postman.setVectorList(map);
+                        request.setRequest(map)
+                    }
                 } catch {
                     case e: Exception =>
                         e.printStackTrace()
@@ -129,4 +134,7 @@ abstract class SearchBaseController(protected val cc: ControllerComponents)(impl
         else if (null != searchRequest && null != searchRequest.getParams.getCid) searchRequest.put(TelemetryParams.ACTOR.name, searchRequest.getParams.getCid)
         else searchRequest.put(TelemetryParams.ACTOR.name, "learning.platform")
     }
+    /*protected def setVectorList(searchRequest: org.sunbird.common.dto.Request)(implicit playRequest: play.api.mvc.Request[AnyContent]) : Unit = {
+
+    }*/
 }

@@ -54,6 +54,13 @@ public class ReadExcel {
                             continue;
                         }
                         key = sheetheading.getCell(j).toString().toLowerCase();
+                        if(key.equalsIgnoreCase("grade")) {
+                            key = "gradeLevel";
+                            contentobj.put(key,splitString(cell.toString()));
+                        }
+                        else  {
+                            contentobj.put(key,splitString(cell.toString()));
+                        }
                         if(key.equalsIgnoreCase("content url")) {
                             key = "sourceurl";
 
@@ -64,19 +71,6 @@ public class ReadExcel {
                                 contenturl = cell.toString().substring(0,cell.toString().lastIndexOf('?'));
                             }
                             contentobj.put(key,contenturl);
-                        }
-                        if(key.equalsIgnoreCase("grade")) {
-                            key = "gradeLevel";
-                            contentobj.put(key,splitString(cell.toString()));
-                        }
-                        else if(key.equalsIgnoreCase("source")){
-                            contentobj.put(key,cell.toString());
-                        }
-                        else  {
-                            contentobj.put(key,splitString(cell.toString()));
-                        }
-                        if(key.equalsIgnoreCase("sourceurl")) {
-
                            resp = Postman.GET(contenturl).get("statuscode").toString();
                            if(resp.equals("200")) {
                                contentId = contenturl.substring(contenturl.lastIndexOf('/') + 1);

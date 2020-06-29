@@ -59,7 +59,12 @@ public class ReadJson {
            content = modifyconceptfields(content);
            if(content.get("Textbook Name") != null) {
                content.put("textbookName",content.get("Textbook Name"));
+               content.remove("Textbook Name");
            }
+            if(content.get("textbook name") != null) {
+                content.put("textbookName",content.get("textbook name"));
+                content.remove("textbook name");
+            }
             // Add label
             content.put("label","MVC");
 
@@ -80,31 +85,51 @@ public class ReadJson {
 
     private static JSONObject modifyconceptfields(JSONObject content) {
         if(content.get("Chapter Concept Name") != null) {
-            content.put("level1Concept",content.get("Chapter Concept Name"));
+           content =  putandremove(content , "Chapter Concept Name" , "level1Concept");
         }
-        content.remove("Chapter Concept Name");
+        else if(content.get("chapter concept name") != null) {
+            content =  putandremove(content , "chapter concept name" , "level1Concept");
+        }
         if(content.get("Topic Concept Name") != null) {
-            content.put("level2Concept",content.get("Topic Concept Name"));
+            content =  putandremove(content , "Topic Concept Name" , "level2Concept");
         }
-        content.remove("Topic Concept Name");
+        else if(content.get("topic concept name") != null) {
+            content =  putandremove(content , "topic concept name" , "level2Concept");
+        }
 
         if(content.get("Sub Topic Concept Name") != null) {
-            content.put("level3Concept",content.get("Sub Topic Concept Name"));
+            content =  putandremove(content , "Sub Topic Concept Name" , "level3Concept");
         }
-        content.remove("Sub Topic Concept Name");
+        else if(content.get("Sub Topic Concept Name") != null) {
+            content =  putandremove(content , "sub topic concept name" , "level3Concept");
+        }
         if(content.get("Chapter Name") != null) {
-            content.put("level1Name",content.get("Chapter Name"));
+            content =  putandremove(content , "Chapter Name" , "level1Name");
         }
-        content.remove("Chapter Name");
+        else if(content.get("chapter name") != null) {
+            content =  putandremove(content , "chapter name" , "level1Name");
+        }
         if(content.get("Topic Name") != null) {
-            content.put("level2Name",content.get("Topic Name"));
+            content =  putandremove(content , "Topic Name" , "level2Name");
         }
-        content.remove("Topic Name");
+        else if(content.get("topic name") != null) {
+            content =  putandremove(content , "topic name" , "level2Name");
+        }
+        if(content.get("sub topic name") != null) {
+            content =  putandremove(content , "sub topic name" , "level3Name");
+        }
+        else if(content.get("sub topic name") != null) {
+            content =  putandremove(content , "sub topic name" , "level3Name");
+        }
+        if(content.get("cid") != null) {
+            content.remove("cid");
+        }
+        return content;
+    }
 
-        if(content.get("Sub Topic Name") != null) {
-            content.put("level3Name",content.get("Sub Topic Name"));
-        }
-        content.remove("Sub Topic Name");
+    private static JSONObject putandremove(JSONObject content, String oldkey, String newkey) {
+        content.put(newkey,content.get(oldkey));
+        content.remove(oldkey);
         return content;
     }
 

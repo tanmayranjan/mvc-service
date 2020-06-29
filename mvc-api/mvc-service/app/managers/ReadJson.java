@@ -70,7 +70,7 @@ public class ReadJson {
             JSONObject edata = (JSONObject)eventObj.get("edata");
             edata.put("repository",SearchConstants.vidyadaanurl + contentId);
             edata.put("metadata",content);
-            writetoKafka(eventObj.toString());
+            writeToKafka(eventObj.toString());
 
         }
         catch (Exception e) {
@@ -80,35 +80,35 @@ public class ReadJson {
 
     private static JSONObject modifyconceptfields(JSONObject content) {
         if(content.get("Chapter Concept Name") != null) {
-            content.put("ml_level1Concept",content.get("Chapter Concept Name"));
+            content.put("level1Concept",content.get("Chapter Concept Name"));
         }
         content.remove("Chapter Concept Name");
         if(content.get("Topic Concept Name") != null) {
-            content.put("ml_level2Concept",content.get("Topic Concept Name"));
+            content.put("level2Concept",content.get("Topic Concept Name"));
         }
         content.remove("Topic Concept Name");
 
         if(content.get("Sub Topic Concept Name") != null) {
-            content.put("ml_level3Concept",content.get("Sub Topic Concept Name"));
+            content.put("level3Concept",content.get("Sub Topic Concept Name"));
         }
         content.remove("Sub Topic Concept Name");
         if(content.get("Chapter Name") != null) {
-            content.put("level1ConceptName",content.get("Chapter Name"));
+            content.put("level1Name",content.get("Chapter Name"));
         }
         content.remove("Chapter Name");
         if(content.get("Topic Name") != null) {
-            content.put("level2ConceptName",content.get("Topic Name"));
+            content.put("level2Name",content.get("Topic Name"));
         }
         content.remove("Topic Name");
 
         if(content.get("Sub Topic Name") != null) {
-            content.put("level3ConceptName",content.get("Sub Topic Name"));
+            content.put("level3Name",content.get("Sub Topic Name"));
         }
         content.remove("Sub Topic Name");
         return content;
     }
 
-    public static void writetoKafka(String event) {
+    public static void writeToKafka(String event) {
         try {
             new KafkaClient().send(event,SearchConstants.mvctopic);
 

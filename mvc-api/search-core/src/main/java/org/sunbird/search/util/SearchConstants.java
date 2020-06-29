@@ -114,4 +114,10 @@ public class SearchConstants {
     public static String soft = "soft";
     public static String mlvectorurl = "http://127.0.0.1:1729/ml/vector/search";
     public static String mlvectorListRequest = "{\"request\":{\"text\":[],\"language\":\"en\",\"method\":\"BERT\",\"params\":{\"dim\":768,\"seq_len\":25}}}";
+    public static String extraparams = "?fields=ageGroup,appIcon,artifactUrl,attributions,attributions,audience,author,badgeAssertions,board,body,channel,code,concepts,contentCredits,contentType,contributors,copyright,copyrightYear,createdBy,createdOn,creator,creators,description,displayScore,domain,editorState,flagReasons,flaggedBy,flags,framework,gradeLevel,identifier,itemSetPreviewUrl,keywords,language,languageCode,lastUpdatedOn,license,mediaType,medium,mimeType,name,originData,osId,owner,pkgVersion,publisher,questions,resourceType,scoreDisplayConfig,status,streamingUrl,subject,template,templateId,totalQuestions,totalScore,versionKey,visibility,year&orgdetails=orgName,email&licenseDetails=name,description,url";
+    public static String dikshaurl = "https://diksha.gov.in/";
+    public static String vidyadaanurl = "https://dock.sunbirded.org/";
+    public static String contentreadapi = "api/content/v1/read/";
+    public static String autocreatejobevent = "{\"eid\":\"BE_JOB_REQUEST\",\"ets\":1591775293678,\"mid\":\"LP.1591775293678.bcecb7f0-aaee-11ea-afdf-2fec82a2b1ed\",\"actor\":{\"id\":\"Auto Creator\",\"type\":\"System\"},\"context\":{\"pdata\":{\"ver\":\"1.0\",\"id\":\"org.ekstep.platform\"},\"channel\":\"sunbird\"},\"object\":{\"ver\":\"1.0\",\"id\":\"\"},\"edata\":{\"action\":\"auto-create\",\"iteration\":1,\"objectType\":\"Content\",\"repository\":\"\",\"metadata\":{}}}";
+    public static String mvctopic = "mvccontent";
 }

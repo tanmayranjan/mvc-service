@@ -5,6 +5,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -109,5 +110,27 @@ public static Map<String,Object> setVectorList(Map<String,Object> filters) {
             System.out.println(e);
             return  null;
         }
+    }
+    public static JSONObject GET(String url)throws Exception {
+        HttpGet get = new HttpGet(url);
+        String strResponse = null;
+        get.setHeader("Content-Type", "application/json; charset=utf-8");
+        HttpResponse response = getHttpClient().execute(get);
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(response.getEntity().getContent()));
+        int statuscode = response.getStatusLine().getStatusCode();
+        JSONObject resp = new JSONObject();
+        resp.put("statuscode",statuscode);
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            strResponse = line;
+        }
+        reader.close();
+
+        if(strResponse==null || strResponse.isEmpty())
+            strResponse = response.getStatusLine().getReasonPhrase();
+        resp.put("response",strResponse);
+        return resp;
     }
 }

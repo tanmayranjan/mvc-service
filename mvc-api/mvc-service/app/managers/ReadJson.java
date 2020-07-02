@@ -6,6 +6,7 @@ import org.sunbird.search.util.SearchConstants;
 import org.sunbird.kafka.client.KafkaClient;
 public class ReadJson {
     String response = null;
+    ReadExcel readExcelobj = new ReadExcel();
     public void read(String json) {
         try {
             JSONParser parser = new JSONParser();
@@ -22,6 +23,9 @@ public class ReadJson {
                     contentobj.put("sourceurl",contenturlarr);
                     contentobj.remove("Content URL");
                 }
+                else if(contentobj.get("sourceurl") != null) {
+                    contenturlarr = (JSONArray) contentobj.get("sourceurl");
+                }
                 else {
                     contenturlarr = null;
                 }
@@ -36,12 +40,12 @@ public class ReadJson {
                     response = (Postman.GET(contenturl)).get("statuscode").toString();
                     if (response.equals("200")) {
                         contentId = contenturl.substring(contenturl.lastIndexOf('/') + 1);
-                        response = Postman.GET(SearchConstants.dikshaurl + SearchConstants.contentreadapi + contentId + SearchConstants.extraparams).get("response").toString();
+                        response = Postman.GET(SearchConstants.dikshaurl + SearchConstants.contentreadapi + contentId).get("response").toString();
                         JSONObject respobj = (JSONObject) parser.parse(response);
                         JSONObject result = (JSONObject) respobj.get("result");
                         JSONObject content = (JSONObject) result.get("content");
                         content.putAll(contentobj);
-                        createEventObj(content, contentId);
+                        readExcelobj.addToEventObj(content, contentId);
                     }
                 }
 
@@ -54,93 +58,5 @@ public class ReadJson {
 
     }
 
-   public static void createEventObj(JSONObject content,String contentId) {
-        try {
-           content = modifyconceptfields(content);
-           if(content.get("Textbook Name") != null) {
-               content.put("textbookName",content.get("Textbook Name"));
-               content.remove("Textbook Name");
-           }
-            if(content.get("textbook name") != null) {
-                content.put("textbookName",content.get("textbook name"));
-                content.remove("textbook name");
-            }
-            // Add label
-            content.put("label","MVC");
-
-            JSONParser event = new JSONParser();
-            JSONObject eventObj = (JSONObject)event.parse(SearchConstants.autocreatejobevent);
-            JSONObject object = (JSONObject)eventObj.get("object");
-            object.put("id",contentId);
-            JSONObject edata = (JSONObject)eventObj.get("edata");
-            edata.put("repository",SearchConstants.vidyadaanurl + contentId);
-            edata.put("metadata",content);
-            writeToKafka(eventObj.toString());
-
-        }
-        catch (Exception e) {
-
-        }
-    }
-
-    private static JSONObject modifyconceptfields(JSONObject content) {
-        if(content.get("Chapter Concept Name") != null) {
-           content =  putandremove(content , "Chapter Concept Name" , "level1Concept");
-        }
-        else if(content.get("chapter concept name") != null) {
-            content =  putandremove(content , "chapter concept name" , "level1Concept");
-        }
-        if(content.get("Topic Concept Name") != null) {
-            content =  putandremove(content , "Topic Concept Name" , "level2Concept");
-        }
-        else if(content.get("topic concept name") != null) {
-            content =  putandremove(content , "topic concept name" , "level2Concept");
-        }
-
-        if(content.get("Sub Topic Concept Name") != null) {
-            content =  putandremove(content , "Sub Topic Concept Name" , "level3Concept");
-        }
-        else if(content.get("Sub Topic Concept Name") != null) {
-            content =  putandremove(content , "sub topic concept name" , "level3Concept");
-        }
-        if(content.get("Chapter Name") != null) {
-            content =  putandremove(content , "Chapter Name" , "level1Name");
-        }
-        else if(content.get("chapter name") != null) {
-            content =  putandremove(content , "chapter name" , "level1Name");
-        }
-        if(content.get("Topic Name") != null) {
-            content =  putandremove(content , "Topic Name" , "level2Name");
-        }
-        else if(content.get("topic name") != null) {
-            content =  putandremove(content , "topic name" , "level2Name");
-        }
-        if(content.get("sub topic name") != null) {
-            content =  putandremove(content , "sub topic name" , "level3Name");
-        }
-        else if(content.get("sub topic name") != null) {
-            content =  putandremove(content , "sub topic name" , "level3Name");
-        }
-        if(content.get("cid") != null) {
-            content.remove("cid");
-        }
-        return content;
-    }
-
-    private static JSONObject putandremove(JSONObject content, String oldkey, String newkey) {
-        content.put(newkey,content.get(oldkey));
-        content.remove(oldkey);
-        return content;
-    }
-
-    public static void writeToKafka(String event) {
-        try {
-            new KafkaClient().send(event,SearchConstants.mvctopic);
-
-        }
-        catch (Exception e) {
-            System.out.println(e);
-        }
-    }
 
 }

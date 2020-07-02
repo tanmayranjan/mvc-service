@@ -12,16 +12,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.sunbird.search.util.SearchConstants;
 
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
-import java.util.stream.Collectors;
 
 public class Postman {
     private static HttpClient client;
@@ -33,7 +29,7 @@ public class Postman {
         }
         return client;
     }
-public static Map<String,Object> setVectorList(Map<String,Object> filters) {
+/*public static Map<String,Object> setVectorList(Map<String,Object> filters) {
         try {
 
 
@@ -75,14 +71,8 @@ public static Map<String,Object> setVectorList(Map<String,Object> filters) {
             System.out.println(e);
         }
     return filters;
-}
-    public static Map<String, Object> convertWithStream(String mapAsString) {
-        Map<String, Object> map = Arrays.stream(mapAsString.split(","))
-                .map(entry -> entry.split(":"))
-                .collect(Collectors.toMap(entry -> entry[0], entry -> entry[1]));
-        return map;
-    }
-    public static String POST(String requestbody,String url) {
+}*/
+/*    public static String POST(String requestbody,String url) {
         @SuppressWarnings("deprecation")
         DefaultHttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url);
@@ -110,7 +100,7 @@ public static Map<String,Object> setVectorList(Map<String,Object> filters) {
             System.out.println(e);
             return  null;
         }
-    }
+    }*/
     public static JSONObject GET(String url)throws Exception {
         HttpGet get = new HttpGet(url);
         String strResponse = null;

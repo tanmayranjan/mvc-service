@@ -15,11 +15,15 @@ class MVCContentController @Inject()(cc: ControllerComponents) (implicit exec: E
     @transient val mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     if(!body.equals("{}")) {
-      mgr.read(body)
+     Future {
+       mgr.read(body)
+     }
     }
     else {
       val file = request.body.asMultipartFormData.get.file("File").get.ref
-      readexcel.readfile(file)
+      Future {
+        readexcel.readfile(file)
+      }
     }
     val result = ResponseHandler.OK()
     val response = mapper.writeValueAsString(result);

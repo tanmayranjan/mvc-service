@@ -5,7 +5,7 @@ import java.util.UUID
 
 import akka.actor.ActorRef
 import akka.pattern.Patterns
-import managers.Postman
+import managers.{Postman, VectorListManager}
 import org.apache.commons.lang3.StringUtils
 import org.sunbird.common.dto.{RequestParams, Response, ResponseHandler}
 import org.sunbird.common.exception.ResponseCode
@@ -99,10 +99,14 @@ abstract class SearchBaseController(protected val cc: ControllerComponents)(impl
                 }
                 val requestObj: AnyRef = requestMap.get("request")
                 if (null != requestObj) try {
-                    val strRequest: String = JsonUtils.serialize(requestObj)
-                    var map: java.util.Map[String, AnyRef] = JsonUtils.deserialize(strRequest, classOf[java.util.Map[String, Object]])
+                    var strRequest: String = JsonUtils.serialize(requestObj)
+                    val strRequestnew = new VectorListManager().setVectorList(strRequest);
+                    if(strRequestnew != null) {
+                        strRequest = JsonUtils.serialize(strRequestnew)
+                    }
+                    val map: java.util.Map[String, AnyRef] = JsonUtils.deserialize(strRequest, classOf[java.util.Map[String, Object]])
                     if (null != map && !map.isEmpty) {
-                       // map = Postman.setVectorList(map);
+                       // map = new VectorListManager().setVectorList(map);
                         request.setRequest(map)
                     }
                 } catch {

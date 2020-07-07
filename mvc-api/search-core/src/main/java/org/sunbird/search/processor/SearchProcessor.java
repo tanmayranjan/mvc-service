@@ -17,6 +17,8 @@ import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder.FilterFunctionBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
+import org.elasticsearch.script.Script;
+import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.Aggregation;
@@ -234,7 +236,6 @@ public class SearchProcessor {
 				groupByFinalList.add(groupByMap);
 			}
 		}
-
 		searchSourceBuilder.size(searchDTO.getLimit());
 		searchSourceBuilder.from(searchDTO.getOffset());
 		QueryBuilder query = getSearchQuery(searchDTO);
@@ -242,7 +243,6 @@ public class SearchProcessor {
 			relevanceSort = true;
 
 		searchSourceBuilder.query(query);
-
 		if (sortBy && !relevanceSort
 				&& (null == searchDTO.getSoftConstraints() || searchDTO.getSoftConstraints().isEmpty())) {
 			Map<String, String> sorting = searchDTO.getSortBy();
@@ -422,6 +422,13 @@ public class SearchProcessor {
 			boolQuery.should(getSoftConstraintQuery(softConstraints));
 			searchDTO.setSortBy(null);
 			// relevanceSort = true;
+		}
+		if(searchDTO.getQueryvector() != null) {
+			Map<String, Object> parameters = new HashMap<>();
+			parameters.put("query_vector", searchDTO.getQueryvector());
+			Script script = new Script(ScriptType.INLINE,"painless","(cosineSimilarity(params.query_vector, doc['ml_contentTextVector']) + 1.0)",parameters);
+			queryBuilder = QueryBuilders.scriptScoreQuery(QueryBuilders.matchAllQuery(),script);
+			boolQuery.should(queryBuilder);
 		}
 		return boolQuery;
 	}

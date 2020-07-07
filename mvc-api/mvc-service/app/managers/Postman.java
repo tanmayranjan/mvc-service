@@ -14,7 +14,6 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,50 +28,8 @@ public class Postman {
         }
         return client;
     }
-/*public static Map<String,Object> setVectorList(Map<String,Object> filters) {
-        try {
 
-
-            Map<String, Object> originalFIlter = (Map<String, Object>) filters.get("filters");
-            String ml_level1 = "", ml_level2 = "", ml_level3 = "";
-            Set<Double> ml_contentTextVector = null;
-            if (originalFIlter.get("ml_level1Concept") != null) {
-                ml_level1 = originalFIlter.get("ml_level1Concept").toString();
-                originalFIlter.remove("ml_level1Concept");
-            }
-            if (originalFIlter.get("ml_level2Concept") != null) {
-                ml_level2 = originalFIlter.get("ml_level2Concept").toString();
-                originalFIlter.remove("ml_level2Concept");
-            }
-            if (originalFIlter.get("ml_level3Concept") != null) {
-                ml_level3 = originalFIlter.get("ml_level3Concept").toString();
-                originalFIlter.remove("ml_level3Concept");
-            }
-          String text =  ml_level1 + " " + ml_level2 + " " + ml_level3;
-           text = text.trim();
-                JSONObject obj = new JSONObject(SearchConstants.mlvectorListRequest);
-                JSONObject req = ((JSONObject) (obj.get("request")));
-                JSONArray text1 = (JSONArray) req.get("text");
-                text1.put(text);
-                JSONObject respobj = new JSONObject(POST(obj.toString(), SearchConstants.mlvectorurl));
-                JSONObject result = (JSONObject) respobj.get("result");
-                JSONArray ml_contentTextVectorList = result.get("vector") != null ? (JSONArray) result.get("vector") : null;
-                if (ml_contentTextVectorList != null) {
-                    ml_contentTextVectorList = (JSONArray) ml_contentTextVectorList.get(0);
-                    ArrayList<Double> vector= new ArrayList<Double>();
-                    for(int i = 0 ; i < ml_contentTextVectorList.length() ; i++) {
-                        vector.add(ml_contentTextVectorList.getDouble(i));
-                    }
-                    originalFIlter.put("ml_contentTextVector", vector);
-                }
-
-        }
-        catch (Exception e) {
-            System.out.println(e);
-        }
-    return filters;
-}*/
-/*    public static String POST(String requestbody,String url) {
+    public static String POST(String requestbody,String url) {
         @SuppressWarnings("deprecation")
         DefaultHttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url);
@@ -100,7 +57,7 @@ public class Postman {
             System.out.println(e);
             return  null;
         }
-    }*/
+    }
     public static JSONObject GET(String url)throws Exception {
         HttpGet get = new HttpGet(url);
         String strResponse = null;

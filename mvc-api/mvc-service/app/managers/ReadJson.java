@@ -20,11 +20,11 @@ public class ReadJson {
                 contentobj = (JSONObject) contentarr.get(j);
                 if(contentobj.get("Content URL") != null) {
                     contenturlarr = (JSONArray) contentobj.get("Content URL");
-                    contentobj.put("sourceurl",contenturlarr);
+                    contentobj.put("sourceURL",contenturlarr);
                     contentobj.remove("Content URL");
                 }
-                else if(contentobj.get("sourceurl") != null) {
-                    contenturlarr = (JSONArray) contentobj.get("sourceurl");
+                else if(contentobj.get("sourceURL") != null) {
+                    contenturlarr = (JSONArray) contentobj.get("sourceURL");
                 }
                 else {
                     contenturlarr = null;
@@ -46,6 +46,11 @@ public class ReadJson {
                         JSONObject content = (JSONObject) result.get("content");
                         content.putAll(contentobj);
                         readExcelobj.addToEventObj(content, contentId);
+                    }
+                    else {
+                        JSONObject failedObj = new JSONObject();
+                        failedObj.put("sourceURL",contenturl);
+                        readExcelobj.writeToKafka(failedObj.toString(),SearchConstants.mvcFailedtopic);
                     }
                 }
 

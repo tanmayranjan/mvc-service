@@ -69,7 +69,7 @@ public class ReadExcel {
                             contentobj.put(key,cell.toString());
                         }
                         else if(key.equalsIgnoreCase("content url")) {
-                            key = "sourceurl";
+                            key = "sourceURL";
                             contenturl = cell.toString();
 
                             // Remove new lines and tabs
@@ -87,6 +87,11 @@ public class ReadExcel {
                                 JSONObject result = (JSONObject) respobj.get("result");
                                 content = (JSONObject) result.get("content");
 
+                            }
+                            else {
+                                JSONObject failedObj = new JSONObject();
+                                failedObj.put("sourceURL",contenturl);
+                                writeToKafka(failedObj.toString(),SearchConstants.mvcFailedtopic);
                             }
                         }
                         else  {
@@ -117,7 +122,7 @@ public class ReadExcel {
         try {
             content = modifyconceptfields(content);
             if(content.get("textbook name") != null) {
-                content.put("textbookName",content.get("textbook name"));
+                content.put("textbook_name",content.get("textbook name"));
                 content.remove("textbook name");
             }
 
@@ -139,7 +144,7 @@ public class ReadExcel {
         JSONObject edata = (JSONObject)eventObj.get("edata");
         edata.put("repository",SearchConstants.vidyadaanurl + contentId);
         edata.put("metadata",content);
-        writeToKafka(eventObj.toString());
+        writeToKafka(eventObj.toString(),SearchConstants.mvctopic);
     }
 
     private  JSONObject modifyconceptfields(JSONObject content) {
@@ -174,9 +179,9 @@ public class ReadExcel {
         return content;
     }
 
-    public  void writeToKafka(String event) {
+    public  void writeToKafka(String event,String topic) {
         try {
-            kafkaclientobj.send(event,SearchConstants.mvctopic);
+            kafkaclientobj.send(event,topic);
 
         }
         catch (Exception e) {

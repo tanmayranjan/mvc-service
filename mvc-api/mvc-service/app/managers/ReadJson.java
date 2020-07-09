@@ -2,60 +2,35 @@ package managers;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.sunbird.search.util.SearchConstants;
-import org.sunbird.kafka.client.KafkaClient;
 public class ReadJson {
-    String response = null;
-    ReadExcel readExcelobj = new ReadExcel();
+    GetContentDefinition getContentDefinition = new GetContentDefinition();
     public void read(String json) {
+
+        JSONParser parser = new JSONParser();
         try {
-            JSONParser parser = new JSONParser();
             JSONObject contentobj;
             JSONObject obj = (JSONObject) parser.parse(json);
             JSONObject req = (JSONObject) obj.get("request");
             JSONArray contentarr = (JSONArray) req.get("content");
-            String contentId = "";
-            JSONArray contenturlarr;
+            String sourceurl;
             for (int j = 0; j < contentarr.size(); j++) {
                 contentobj = (JSONObject) contentarr.get(j);
                 if(contentobj.get("Content URL") != null) {
-                    contenturlarr = (JSONArray) contentobj.get("Content URL");
-                    contentobj.put("sourceURL",contenturlarr);
+                    sourceurl =  contentobj.get("Content URL").toString();
+                    contentobj.put("sourceURL",sourceurl);
                     contentobj.remove("Content URL");
                 }
                 else if(contentobj.get("sourceURL") != null) {
-                    contenturlarr = (JSONArray) contentobj.get("sourceURL");
+                    sourceurl =  contentobj.get("sourceURL").toString();
                 }
                 else {
-                    contenturlarr = null;
+                    sourceurl = null;
                 }
-                if (contenturlarr != null) {
-                String temp = "";
-                for (int i = 0; i < contenturlarr.size(); i++) {
-                    String contenturl = contenturlarr.get(i).toString();
-                    if (temp.equalsIgnoreCase(contenturl)) {
-                        continue;
-                    }
-                    temp = contenturl;
-                    response = (Postman.GET(contenturl)).get("statuscode").toString();
-                    if (response.equals("200")) {
-                        contentId = contenturl.substring(contenturl.lastIndexOf('/') + 1);
-                        response = Postman.GET(SearchConstants.dikshaurl + SearchConstants.contentreadapi + contentId).get("response").toString();
-                        JSONObject respobj = (JSONObject) parser.parse(response);
-                        JSONObject result = (JSONObject) respobj.get("result");
-                        JSONObject content = (JSONObject) result.get("content");
-                        content.putAll(contentobj);
-                        readExcelobj.addToEventObj(content, contentId);
-                    }
-                    else {
-                        JSONObject failedObj = new JSONObject();
-                        failedObj.put("sourceURL",contenturl);
-                        readExcelobj.writeToKafka(failedObj.toString(),SearchConstants.mvcFailedtopic);
-                    }
-                }
-
+                if (sourceurl != null) {
+                    // get content definition
+                    getContentDefinition.getDefinition(contentobj,sourceurl);
             }
-        }
+          }
         }
         catch (Exception e) {
             System.out.println(e);

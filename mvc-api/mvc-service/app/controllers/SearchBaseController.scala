@@ -13,8 +13,6 @@ import org.sunbird.common.{DateUtils, JsonUtils, Platform}
 import org.sunbird.telemetry.TelemetryParams
 import play.api.mvc._
 
-import collection.JavaConverters._
-import scala.collection.JavaConversions._
 import scala.collection.JavaConverters._
 import scala.concurrent.{ExecutionContext, Future}
 

@@ -118,7 +118,10 @@ public class SearchConstants {
     public static String dikshaurl = "https://diksha.gov.in/";
     public static String vidyadaanurl = "https://dock.sunbirded.org/";
     public static String contentreadapi = "api/content/v1/read/";
-    public static String autocreatejobevent = "{\"eid\":\"BE_JOB_REQUEST\",\"ets\":1591775293678,\"mid\":\"LP.1591775293678.bcecb7f0-aaee-11ea-afdf-2fec82a2b1ed\",\"actor\":{\"id\":\"Auto Creator\",\"type\":\"System\"},\"context\":{\"pdata\":{\"ver\":\"1.0\",\"id\":\"org.ekstep.platform\"},\"channel\":\"sunbird\"},\"object\":{\"ver\":\"1.0\",\"id\":\"\"},\"edata\":{\"action\":\"auto-create\",\"iteration\":1,\"objectType\":\"Content\",\"repository\":\"\",\"metadata\":{}}}";
+    public static String autocreatejobevent = "{\"eid\":\"BE_JOB_REQUEST\",\"mid\":\"\",\"actor\":{\"id\":\"Auto Creator\",\"type\":\"System\"},\"context\":{\"pdata\":{\"ver\":\"1.0\",\"id\":\"org.ekstep.platform\"},\"channel\":\"\"},\"object\":{\"ver\":\"1.0\",\"id\":\"\"},\"edata\":{\"action\":\"auto-create\",\"iteration\":1,\"objectType\":\"Content\",\"repository\":\"\",\"metadata\":{}}}";
     public static String mvctopic = "sunbirddock.auto.creation.job.request";
-    public static String mvcFailedtopic = "sunbirddock.auto.creation.job.request";
+    public static String mvcFailedtopic = "sunbirddock.auto.creation.job.failedevent";
+    public static String contentKeysObj = "{\"board\":\"board\",\"medium\":\"medium\",\"grade\":\"gradeLevel\",\"subject\":\"subject\",\"chapterconceptname\":\"level1Concept\",\"topicconceptname\":\"level2Concept\",\"subtopicconceptname\":\"level3Concept\",\"chaptername\":\"level1Name\",\"topicname\":\"level2Name\",\"subtopicname\":\"level3Name\",\"textbookname\":\"textbook_name\",\"contenturl\":\"sourceURL\"}";
+    public static String csvcolumndelimeter = "|";
+    public static String csvfiledelimeter =",";
 }

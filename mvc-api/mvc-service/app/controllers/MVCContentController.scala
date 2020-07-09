@@ -1,7 +1,9 @@
 package controllers
+import java.nio.file.Paths
+
 import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}
 import com.google.inject.Inject
-import managers.{ReadExcel, ReadJson}
+import managers.{CSVContentProcessor, ReadJson}
 import org.sunbird.common.dto.ResponseHandler
 import org.sunbird.common.exception.ResponseCode
 import play.api.mvc.ControllerComponents
@@ -9,17 +11,18 @@ import play.api.mvc.ControllerComponents
 import scala.concurrent.{ExecutionContext, Future}
 
 class MVCContentController @Inject()(cc: ControllerComponents) (implicit exec: ExecutionContext) extends SearchBaseController(cc) {
-  val mgr: ReadJson = new ReadJson()
-  val readexcel: ReadExcel = new ReadExcel()
-  def createUsingExcel() = Action.async { implicit request =>
+  val readJson: ReadJson = new ReadJson()
+  val readcsv: CSVContentProcessor = new CSVContentProcessor()
+  def createUsingCSV() = Action.async { implicit request =>
     val body = request.body.asJson.getOrElse("{}").toString
     var result = ResponseHandler.OK()
     @transient val mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     if(body.equals("{}")) {
-      val file = request.body.asMultipartFormData.get.file("File").get.ref
+      val multipart = request.body.asMultipartFormData
+      val file = multipart.get.file("File").get.ref;
       Future {
-        readexcel.readfile(file)
+        readcsv.readCsvFile(file)
       }
     }
     else {
@@ -35,7 +38,7 @@ class MVCContentController @Inject()(cc: ControllerComponents) (implicit exec: E
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     if(!body.equals("{}")) {
       Future {
-        mgr.read(body)
+        readJson.read(body)
       }
     }
     else {

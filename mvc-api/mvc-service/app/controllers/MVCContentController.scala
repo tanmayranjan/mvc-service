@@ -24,7 +24,7 @@ class MVCContentController @Inject()(cc: ControllerComponents) (implicit exec: E
       val file = multipart.get.file("File").get.ref;
       Future {
         val rows = readCSV.readCSV(file)
-        processCSV.readCsvFile(rows)
+        processCSV.processCSVRows(rows)
       }
     }
     else {

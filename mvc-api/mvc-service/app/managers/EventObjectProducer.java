@@ -6,6 +6,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.sunbird.search.util.SearchConstants;
 
+import java.util.LinkedHashMap;
 import java.util.UUID;
 
 public class EventObjectProducer {
@@ -22,11 +23,11 @@ public class EventObjectProducer {
             UUID uniqueKey = UUID.randomUUID();
             String mid = "VD." + timeinmillisecond + "." + uniqueKey;
             eventObj.put("mid", mid);
-            JSONObject object = (JSONObject) eventObj.get("object");
+            LinkedHashMap<String,Object> object = (LinkedHashMap<String,Object>) eventObj.get("object");
             object.put("id", contentId);
-            JSONObject context = (JSONObject) eventObj.get("context");
+            LinkedHashMap<String,Object> context = (LinkedHashMap<String,Object>) eventObj.get("context");
             context.put("channel", content.get("channel").toString());
-            JSONObject edata = (JSONObject) eventObj.get("edata");
+            LinkedHashMap<String,Object> edata = (LinkedHashMap<String,Object>) eventObj.get("edata");
             edata.put("repository", SearchConstants.vidyadaanurl + contentId);
             edata.put("metadata", content);
             eventProducer.writeToKafka(eventObj.toString(), SearchConstants.mvctopic);

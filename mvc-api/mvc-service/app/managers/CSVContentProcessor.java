@@ -6,32 +6,36 @@ import org.json.simple.JSONObject;
 import org.sunbird.search.util.SearchConstants;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class CSVContentProcessor {
 GetContentDefinition getContentDefinition = new GetContentDefinition();
-    JSONObject dataKeys;
+    Map<String,Object> dataKeys;
     ObjectMapper mapper = new ObjectMapper();
-    public void readCsvFile(List<String[]> csvRows) {
-        String[] header = {};
+    public void processCSVRows(List<String[]> csvRows) {
+        List<String> header ;
         int rowCount = 0;
 
         try {
-            dataKeys = mapper.readValue(SearchConstants.contentKeysObj,JSONObject.class);
-
+            dataKeys = mapper.readValue(SearchConstants.contentKeysObj,Map.class);
+            Set<String> allkeys = dataKeys.keySet();
                 JSONObject headerobj = new JSONObject();
-                while (rowCount < csvRows.size()) {
+                int numberofrows = csvRows.size() > SearchConstants.csvRowsLimit ? SearchConstants.csvRowsLimit : csvRows.size();
+                while (rowCount < numberofrows) {
                     if (rowCount == 0) {
-                        header = csvRows.get(rowCount);
+                        header = Arrays.asList(csvRows.get(rowCount));
                         String headerkey;
-                        for(int i = 0 ; i < header.length ; i++) {
-                            headerkey = header[i].toLowerCase().replaceAll("\\s", "");
+                        for(int i = 0 ; i < header.size() ; i++) {
+                            headerkey = header.get(i).toLowerCase().replaceAll("\\s", "");
                             if(dataKeys.containsKey(headerkey)) {
-                                headerobj.put(header[i],i);
+                                headerobj.put(headerkey,i);
                             }
+
                         }
                     } else {
                         String[] values = csvRows.get(rowCount);
-                        JSONObject data = getJsonObjectForValues(headerobj, values);
+                        JSONObject data = getJsonObjectForValues(headerobj, values , allkeys);
                         // Do the processing
                         // get source url
                         String sourceurl = data.get("sourceURL").toString();
@@ -64,16 +68,16 @@ GetContentDefinition getContentDefinition = new GetContentDefinition();
 
 
 // Create JSON object from CSV keys and values
-    public JSONObject getJsonObjectForValues(JSONObject keys, String[] value) {
+    public JSONObject getJsonObjectForValues(JSONObject keys, String[] value , Set<String> allkeys) {
         JSONObject data = new JSONObject();
         try {
             String dataKey="" , dataValue  , header;
             int headerIndex;
 
-            for(int pos=0; pos < dataKeys.size(); pos++) {
-                headerIndex = (int) keys.get(dataKeys.get(pos));
+            for (String ele : allkeys ) {
+                dataKey = (String) dataKeys.get(ele);
+                headerIndex = (int) keys.get(ele);
                 dataValue = "";
-                dataKey = dataKeys.get(pos).toString();
                 if( headerIndex <= value.length - 1) {
                     dataValue = value[headerIndex];
                 }

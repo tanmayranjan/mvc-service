@@ -2,7 +2,6 @@ package managers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.sunbird.search.util.SearchConstants;
 
 public class ReadJson {

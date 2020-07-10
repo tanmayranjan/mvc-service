@@ -3,6 +3,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.sunbird.search.util.SearchConstants;
+
 public class ReadJson {
     GetContentDefinition getContentDefinition = new GetContentDefinition();
     public void read(String json) {
@@ -13,14 +15,10 @@ public class ReadJson {
             JSONObject req = (JSONObject) obj.get("request");
             JSONArray contentarr = (JSONArray) req.get("content");
             String sourceurl;
-            for (int j = 0; j < contentarr.size(); j++) {
+            int contentarrlen = contentarr.size() > SearchConstants.contentArrayLimit ? SearchConstants.contentArrayLimit : contentarr.size();
+            for (int j = 0; j < contentarrlen; j++) {
                 contentobj = (JSONObject) contentarr.get(j);
-                if(contentobj.get("Content URL") != null) {
-                    sourceurl =  contentobj.get("Content URL").toString();
-                    contentobj.put("sourceURL",sourceurl);
-                    contentobj.remove("Content URL");
-                }
-                else if(contentobj.get("sourceURL") != null) {
+                if(contentobj.get("sourceURL") != null) {
                     sourceurl =  contentobj.get("sourceURL").toString();
                 }
                 else {

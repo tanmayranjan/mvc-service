@@ -125,4 +125,5 @@ public class SearchConstants {
     public static String csvcolumndelimeter = "|";
     public static String csvfiledelimeter =",";
     public static int csvRowsLimit = 1000;
+    public static int contentArrayLimit = 10;
 }

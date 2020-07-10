@@ -1,12 +1,10 @@
 package managers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.sf.json.JSON;
 import org.json.simple.JSONObject;
 import org.sunbird.search.util.SearchConstants;
 
 import java.util.LinkedHashMap;
-import java.util.Set;
 
 public class GetContentDefinition {
     EventObjectProducer eventObjectProducer = new EventObjectProducer();
@@ -42,12 +40,4 @@ public class GetContentDefinition {
             eventProducer.writeToKafka(failedObj.toString(), SearchConstants.mvcFailedtopic);
         }
      }
-    /*public JSONObject convertintoJSONobject(LinkedHashMap<String,Object> obj) {
-        JSONObject newobj = new JSONObject();
-        Set<String> keys = obj.keySet();
-        for(String ele:keys) {
-            newobj.put(ele,obj.get(ele));
-        }
-        return newobj;
-     }*/
    }

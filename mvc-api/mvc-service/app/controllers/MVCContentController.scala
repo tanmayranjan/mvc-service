@@ -1,9 +1,8 @@
 package controllers
-import java.nio.file.Paths
 
 import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}
 import com.google.inject.Inject
-import managers.{CSVContentProcessor, ReadCSV, ReadJson}
+import managers.ReadJson
 import org.sunbird.common.dto.ResponseHandler
 import org.sunbird.common.exception.ResponseCode
 import play.api.mvc.ControllerComponents

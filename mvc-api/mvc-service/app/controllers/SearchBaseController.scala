@@ -99,7 +99,6 @@ abstract class SearchBaseController(protected val cc: ControllerComponents)(impl
                     val strRequest: String = JsonUtils.serialize(requestObj)
                     var map: java.util.Map[String, AnyRef] = JsonUtils.deserialize(strRequest, classOf[java.util.Map[String, Object]])
                     if (null != map && !map.isEmpty) {
-                       // map = Postman.setVectorList(map);
                         request.setRequest(map)
                     }
                 } catch {
@@ -131,7 +130,4 @@ abstract class SearchBaseController(protected val cc: ControllerComponents)(impl
         else if (null != searchRequest && null != searchRequest.getParams.getCid) searchRequest.put(TelemetryParams.ACTOR.name, searchRequest.getParams.getCid)
         else searchRequest.put(TelemetryParams.ACTOR.name, "learning.platform")
     }
-    /*protected def setVectorList(searchRequest: org.sunbird.common.dto.Request)(implicit playRequest: play.api.mvc.Request[AnyContent]) : Unit = {
-
-    }*/
 }

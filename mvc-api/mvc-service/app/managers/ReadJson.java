@@ -1,16 +1,15 @@
 package managers;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.sunbird.common.JsonUtils;
 import org.sunbird.search.util.SearchConstants;
 
 public class ReadJson {
     GetContentDefinition getContentDefinition = new GetContentDefinition();
     public void read(String json) {
-        ObjectMapper mapper =new  ObjectMapper();
         try {
             JSONObject contentobj;
-            JSONObject obj = mapper.readValue(json,JSONObject.class);
+            JSONObject obj = JsonUtils.deserialize(json,JSONObject.class);
             JSONObject req = (JSONObject) obj.get("request");
             JSONArray contentarr = (JSONArray) req.get("content");
             String sourceurl;

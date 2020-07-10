@@ -1,7 +1,7 @@
 package managers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONObject;
+import org.sunbird.common.JsonUtils;
 import org.sunbird.search.util.SearchConstants;
 
 import java.util.LinkedHashMap;
@@ -9,7 +9,6 @@ import java.util.LinkedHashMap;
 public class GetContentDefinition {
     EventObjectProducer eventObjectProducer = new EventObjectProducer();
     EventProducer eventProducer = new EventProducer();
-    ObjectMapper mapper = new ObjectMapper();
     public void getDefinition(JSONObject contentobj,String sourceurl) {
         String resp = "", respcode = "", contentId = "";
         JSONObject failedObj = new JSONObject();
@@ -19,7 +18,7 @@ public class GetContentDefinition {
             if (respcode.equals("200")) {
                 contentId = sourceurl.substring(sourceurl.lastIndexOf('/') + 1);
                 resp = Postman.GET(SearchConstants.dikshaurl + SearchConstants.contentreadapi + contentId).get("response").toString();
-                JSONObject respobj = mapper.readValue(resp,JSONObject.class);
+                JSONObject respobj = JsonUtils.deserialize(resp,JSONObject.class);
                 LinkedHashMap<String,Object> result = (LinkedHashMap<String,Object>) respobj.get("result");
 
                 LinkedHashMap<String,Object> content = (LinkedHashMap<String,Object>) result.get("content");

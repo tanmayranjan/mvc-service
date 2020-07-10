@@ -1,7 +1,7 @@
 package managers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONObject;
+import org.sunbird.common.JsonUtils;
 import org.sunbird.search.util.SearchConstants;
 
 import java.util.LinkedHashMap;
@@ -9,13 +9,9 @@ import java.util.UUID;
 
 public class EventObjectProducer {
     EventProducer eventProducer = new EventProducer();
-    public void addToEventObj(JSONObject content, String contentId)  {
-        // Add label
-        content.put("label","MVC");
-        ObjectMapper event = new ObjectMapper();
-        try {
+    public void addToEventObj(JSONObject content, String contentId) throws Exception  {
 
-            JSONObject eventObj = event.readValue(SearchConstants.autocreatejobevent, JSONObject.class);
+            JSONObject eventObj = JsonUtils.deserialize(SearchConstants.autocreatejobevent, JSONObject.class);
             final long timeinmillisecond = System.currentTimeMillis();
             eventObj.put("ets", timeinmillisecond);
             UUID uniqueKey = UUID.randomUUID();
@@ -29,9 +25,6 @@ public class EventObjectProducer {
             edata.put("repository", SearchConstants.vidyadaanurl + contentId);
             edata.put("metadata", content);
             eventProducer.writeToKafka(eventObj.toString(), SearchConstants.mvctopic);
-        }
-        catch (Exception e) {
-            System.out.println("Exception in Eventobjectproducer " + e);
-        }
+
     }
 }

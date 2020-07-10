@@ -16,12 +16,18 @@ GetContentDefinition getContentDefinition = new GetContentDefinition();
     public void processCSVRows(List<String[]> csvRows) {
         List<String> header ;
         int rowCount = 0;
-
+        int numberofrows;
         try {
             dataKeys = mapper.readValue(SearchConstants.contentKeysObj,Map.class);
             Set<String> allkeys = dataKeys.keySet();
                 JSONObject headerobj = new JSONObject();
-                int numberofrows = csvRows.size() > SearchConstants.csvRowsLimit ? SearchConstants.csvRowsLimit : csvRows.size();
+                if(csvRows.size() > SearchConstants.csvRowsLimit) {
+                    numberofrows = SearchConstants.csvRowsLimit;
+                    System.out.println("Number of rows are greater than " + SearchConstants.csvRowsLimit);
+                }
+                else {
+                    numberofrows = csvRows.size();
+                }
                 while (rowCount < numberofrows) {
                     if (rowCount == 0) {
                         header = Arrays.asList(csvRows.get(rowCount));

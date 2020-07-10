@@ -1,15 +1,15 @@
 package managers;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 public class ReadJson {
     GetContentDefinition getContentDefinition = new GetContentDefinition();
     public void read(String json) {
-
-        JSONParser parser = new JSONParser();
+        ObjectMapper mapper =new  ObjectMapper();
         try {
             JSONObject contentobj;
-            JSONObject obj = (JSONObject) parser.parse(json);
+            JSONObject obj = mapper.readValue(json,JSONObject.class);
             JSONObject req = (JSONObject) obj.get("request");
             JSONArray contentarr = (JSONArray) req.get("content");
             String sourceurl;

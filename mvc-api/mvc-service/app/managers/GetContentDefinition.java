@@ -1,13 +1,13 @@
 package managers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.sunbird.search.util.SearchConstants;
 
 public class GetContentDefinition {
     EventObjectProducer eventObjectProducer = new EventObjectProducer();
     EventProducer eventProducer = new EventProducer();
-    JSONParser parser = new JSONParser();
+    ObjectMapper mapper = new ObjectMapper();
     public void getDefinition(JSONObject contentobj,String sourceurl) {
         String resp = "", respcode = "", contentId = "";
         JSONObject content = new JSONObject();
@@ -18,7 +18,7 @@ public class GetContentDefinition {
             if (respcode.equals("200")) {
                 contentId = sourceurl.substring(sourceurl.lastIndexOf('/') + 1);
                 resp = Postman.GET(SearchConstants.dikshaurl + SearchConstants.contentreadapi + contentId).get("response").toString();
-                JSONObject respobj = (JSONObject) parser.parse(resp);
+                JSONObject respobj = mapper.readValue(resp,JSONObject.class);
                 JSONObject result = (JSONObject) respobj.get("result");
                 content = (JSONObject) result.get("content");
                 // club metadata of diksha and from csv/json

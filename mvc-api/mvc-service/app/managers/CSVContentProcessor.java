@@ -1,32 +1,37 @@
 package managers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.sunbird.search.util.SearchConstants;
-
-import java.io.*;
 import java.util.Arrays;
+import java.util.List;
 
 public class CSVContentProcessor {
 GetContentDefinition getContentDefinition = new GetContentDefinition();
     JSONObject dataKeys;
-    JSONParser parser = new JSONParser();
-    public void readCsvFile(File csvFile) {
+    ObjectMapper mapper = new ObjectMapper();
+    public void readCsvFile(List<String[]> csvRows) {
         String[] header = {};
         int rowCount = 0;
 
         try {
-            dataKeys = (JSONObject) parser.parse(SearchConstants.contentKeysObj);
-            try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-                String line;
+            dataKeys = mapper.readValue(SearchConstants.contentKeysObj,JSONObject.class);
 
-                while ((line = br.readLine()) != null) {
+                JSONObject headerobj = new JSONObject();
+                while (rowCount < csvRows.size()) {
                     if (rowCount == 0) {
-                        header = line.split(SearchConstants.csvfiledelimeter);
+                        header = csvRows.get(rowCount);
+                        String headerkey;
+                        for(int i = 0 ; i < header.length ; i++) {
+                            headerkey = header[i].toLowerCase().replaceAll("\\s", "");
+                            if(dataKeys.containsKey(headerkey)) {
+                                headerobj.put(header[i],i);
+                            }
+                        }
                     } else {
-                        String[] values = line.split(SearchConstants.csvfiledelimeter);
-                        JSONObject data = getJsonObjectForValues(header, values);
+                        String[] values = csvRows.get(rowCount);
+                        JSONObject data = getJsonObjectForValues(headerobj, values);
                         // Do the processing
                         // get source url
                         String sourceurl = data.get("sourceURL").toString();
@@ -39,15 +44,11 @@ GetContentDefinition getContentDefinition = new GetContentDefinition();
                     }
 
                     rowCount++;
-                }
-            } catch (FileNotFoundException e) {
-
-            } catch (IOException e) {
 
             }
         }
         catch (Exception e) {
-
+             System.out.println("Exception in read csv" + e);
         }
 
     }
@@ -63,20 +64,20 @@ GetContentDefinition getContentDefinition = new GetContentDefinition();
 
 
 // Create JSON object from CSV keys and values
-    public JSONObject getJsonObjectForValues(String[] keys, String[] value) {
+    public JSONObject getJsonObjectForValues(JSONObject keys, String[] value) {
         JSONObject data = new JSONObject();
         try {
-            String dataKey="" , dataValue , header;
-            for(int pos=0; pos < value.length; pos++) {
-                header = keys[pos];
-                if(header != "" && header != null) {
-                    header = header.toLowerCase().replaceAll("\\s", "");
-                    dataKey =dataKeys.containsKey(header) ? dataKeys.get(header).toString() : "";
+            String dataKey="" , dataValue  , header;
+            int headerIndex;
 
+            for(int pos=0; pos < dataKeys.size(); pos++) {
+                headerIndex = (int) keys.get(dataKeys.get(pos));
+                dataValue = "";
+                dataKey = dataKeys.get(pos).toString();
+                if( headerIndex <= value.length - 1) {
+                    dataValue = value[headerIndex];
                 }
-
-                dataValue = value[pos];
-                if(!dataKey.equals("") && !dataValue.equals("")) {
+                if(!dataValue.equals("")) {
                     if(dataKey.equals("sourceURL") || dataKey.equals("board")) {
                         // Input as a string
                         data.put(dataKey,dataValue);

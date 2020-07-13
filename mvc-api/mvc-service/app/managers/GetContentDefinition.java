@@ -1,16 +1,16 @@
 package managers;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.sunbird.common.JsonUtils;
 import org.sunbird.search.util.SearchConstants;
+
+import java.util.LinkedHashMap;
 
 public class GetContentDefinition {
     EventObjectProducer eventObjectProducer = new EventObjectProducer();
     EventProducer eventProducer = new EventProducer();
-    JSONParser parser = new JSONParser();
     public void getDefinition(JSONObject contentobj,String sourceurl) {
         String resp = "", respcode = "", contentId = "";
-        JSONObject content = new JSONObject();
         JSONObject failedObj = new JSONObject();
         try {
             respcode = Postman.GET(sourceurl).get("statuscode").toString();
@@ -18,12 +18,14 @@ public class GetContentDefinition {
             if (respcode.equals("200")) {
                 contentId = sourceurl.substring(sourceurl.lastIndexOf('/') + 1);
                 resp = Postman.GET(SearchConstants.dikshaurl + SearchConstants.contentreadapi + contentId).get("response").toString();
-                JSONObject respobj = (JSONObject) parser.parse(resp);
-                JSONObject result = (JSONObject) respobj.get("result");
-                content = (JSONObject) result.get("content");
+                JSONObject respobj = JsonUtils.deserialize(resp,JSONObject.class);
+                LinkedHashMap<String,Object> result = (LinkedHashMap<String,Object>) respobj.get("result");
+
+                LinkedHashMap<String,Object> content = (LinkedHashMap<String,Object>) result.get("content");
+                JSONObject newobj = new JSONObject(content);
                 // club metadata of diksha and from csv/json
-                content.putAll(contentobj);
-                eventObjectProducer.addToEventObj(content, contentId);
+                newobj.putAll(contentobj);
+                eventObjectProducer.addToEventObj(newobj, contentId);
             } else {
                 // if source url is not valid , send an event to another topic
                 failedObj.put("sourceURL", sourceurl);

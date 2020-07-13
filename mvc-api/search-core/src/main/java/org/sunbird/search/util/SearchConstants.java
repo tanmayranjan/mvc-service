@@ -122,6 +122,5 @@ public class SearchConstants {
     public static String mvctopic = "sunbirddock.auto.creation.job.request";
     public static String mvcFailedtopic = "sunbirddock.auto.creation.job.failedevent";
     public static String contentKeysObj = "{\"board\":\"board\",\"medium\":\"medium\",\"grade\":\"gradeLevel\",\"subject\":\"subject\",\"chapterconceptname\":\"level1Concept\",\"topicconceptname\":\"level2Concept\",\"subtopicconceptname\":\"level3Concept\",\"chaptername\":\"level1Name\",\"topicname\":\"level2Name\",\"subtopicname\":\"level3Name\",\"textbookname\":\"textbook_name\",\"contenturl\":\"sourceURL\"}";
-    public static String csvcolumndelimeter = "|";
-    public static String csvfiledelimeter =",";
+    public static int contentArrayLimit = 10;
 }

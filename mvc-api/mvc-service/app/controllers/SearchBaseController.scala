@@ -136,7 +136,4 @@ abstract class SearchBaseController(protected val cc: ControllerComponents)(impl
         else if (null != searchRequest && null != searchRequest.getParams.getCid) searchRequest.put(TelemetryParams.ACTOR.name, searchRequest.getParams.getCid)
         else searchRequest.put(TelemetryParams.ACTOR.name, "learning.platform")
     }
-    /*protected def setVectorList(searchRequest: org.sunbird.common.dto.Request)(implicit playRequest: play.api.mvc.Request[AnyContent]) : Unit = {
-
-    }*/
 }

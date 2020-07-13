@@ -11,8 +11,7 @@ import org.sunbird.common.exception.ResponseCode
 import org.sunbird.common.{DateUtils, JsonUtils, Platform}
 import org.sunbird.telemetry.TelemetryParams
 import play.api.mvc._
-import collection.JavaConverters._
-import scala.collection.JavaConversions._
+
 import scala.collection.JavaConverters._
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -98,8 +97,10 @@ abstract class SearchBaseController(protected val cc: ControllerComponents)(impl
                 val requestObj: AnyRef = requestMap.get("request")
                 if (null != requestObj) try {
                     val strRequest: String = JsonUtils.serialize(requestObj)
-                    val map: java.util.Map[String, AnyRef] =  JsonUtils.deserialize(strRequest, classOf[java.util.Map[String, Object]])
-                    if (null != map && !map.isEmpty) request.setRequest(map)
+                    var map: java.util.Map[String, AnyRef] = JsonUtils.deserialize(strRequest, classOf[java.util.Map[String, Object]])
+                    if (null != map && !map.isEmpty) {
+                        request.setRequest(map)
+                    }
                 } catch {
                     case e: Exception =>
                         e.printStackTrace()

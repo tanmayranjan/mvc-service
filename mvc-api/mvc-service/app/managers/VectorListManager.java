@@ -1,23 +1,20 @@
 package managers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.sunbird.common.JsonUtils;
 import org.sunbird.search.util.SearchConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class VectorListManager {
     String text = "";
-   //  public  Map<String,Object> setVectorList(Map<String,Object> filters) {
         public  Map<String,Object> setVectorList(String strRequest) {
-            ObjectMapper mapper = new ObjectMapper();
         try {
 
-            Map<String, Object> strReq = mapper.readValue(strRequest, Map.class);
+            Map<String, Object> strReq = JsonUtils.deserialize(strRequest, Map.class);
             Map<String,Object> originalFIlter = (Map<String,Object>)strReq.get("filters");
             List<String> level1 = null, level2 = null, level3 = null;
             if (originalFIlter.get("level1Name") != null) {

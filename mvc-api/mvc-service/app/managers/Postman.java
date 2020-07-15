@@ -5,9 +5,13 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicHeader;
 import org.json.JSONObject;
-
+import org.apache.http.protocol.HTTP;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
@@ -22,7 +26,7 @@ public class Postman {
         return client;
     }
 
-    public static String POST(String requestbody,String url) {
+    public static String POST(String requestbody,String url)throws  Exception {
         @SuppressWarnings("deprecation")
         DefaultHttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url);
@@ -31,7 +35,7 @@ public class Postman {
         String strResponse =  null;
         entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
         httpPost.setEntity(entity);
-        try {
+
             HttpResponse response = httpClient.execute(httpPost);
             System.out.println("response::"+response);
             if (response.getStatusLine().getStatusCode() != 200) {
@@ -43,13 +47,6 @@ public class Postman {
                 strResponse = output;
             }
             return  strResponse;
-        } catch (ClientProtocolException e) {
-            System.out.println(e);
-            return null;
-        } catch (IOException e) {
-            System.out.println(e);
-            return  null;
-        }
     }
     public static JSONObject GET(String url)throws Exception {
         HttpGet get = new HttpGet(url);

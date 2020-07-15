@@ -242,9 +242,10 @@ public class SearchProcessor {
 		if (searchDTO.isFuzzySearch())
 			relevanceSort = true;
 
-		searchSourceBuilder.query(query);
+      	searchSourceBuilder.query(query);
 		if (sortBy && !relevanceSort
-				&& (null == searchDTO.getSoftConstraints() || searchDTO.getSoftConstraints().isEmpty())) {
+				&& (null == searchDTO.getSoftConstraints() || searchDTO.getSoftConstraints().isEmpty())
+				&& (searchDTO.getQueryvector() == null || searchDTO.getQueryvector().isEmpty())) {
 			Map<String, String> sorting = searchDTO.getSortBy();
 			if (sorting == null || sorting.isEmpty()) {
 				sorting = new HashMap<String, String>();
@@ -429,6 +430,7 @@ public class SearchProcessor {
 			Script script = new Script(ScriptType.INLINE,"painless","(cosineSimilarity(params.query_vector, doc['ml_contentTextVector']) + 1.0)",parameters);
 			queryBuilder = QueryBuilders.scriptScoreQuery(QueryBuilders.matchAllQuery(),script);
 			boolQuery.should(queryBuilder);
+			searchDTO.setSortBy(null);
 		}
 		return boolQuery;
 	}

@@ -104,7 +104,7 @@ public class SearchActor extends SearchBaseActor {
             if (null == wordChainsRequest)
                 wordChainsRequest = false;
             Boolean vectorsearch = true;
-            if(null == request.get("query_vector"))
+            if(null == req.get("query_vector"))
                 vectorsearch = false;
             List<Map> properties = new ArrayList<Map>();
             Map<String, Object> filters = (Map<String, Object>) req.get(SearchConstants.filters);

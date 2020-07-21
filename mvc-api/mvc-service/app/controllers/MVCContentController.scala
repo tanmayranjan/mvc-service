@@ -18,14 +18,17 @@ class MVCContentController @Inject()(cc: ControllerComponents) (implicit exec: E
     var result = ResponseHandler.OK()
     if(!body.equals("{}")) {
       Future {
-        readJson.read(body)
+       readJson.read(body)
       }
+
+      val response = mapper.writeValueAsString(result);
+      Future(Ok(response).as("application/json"))
     }
     else {
       result = ResponseHandler.ERROR(ResponseCode.CLIENT_ERROR,"400","Bad Request,Please provide valid input")
+      val response = mapper.writeValueAsString(result);
+      Future(BadRequest(response).as("application/json"))
     }
-    val response = mapper.writeValueAsString(result);
-    Future(Ok(response).as("application/json"))
   }
 
 }

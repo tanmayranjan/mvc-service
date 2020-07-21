@@ -3,8 +3,10 @@ package managers;
 import org.sunbird.kafka.client.KafkaClient;
 
 public class EventProducer {
-    KafkaClient kafkaclientobj = new KafkaClient();
-    public  void writeToKafka(String event,String topic) {
+
+    public static void writeToKafka(String event,String topic) {
+
+        KafkaClient kafkaclientobj = new KafkaClient();
         try {
             kafkaclientobj.send(event,topic);
 

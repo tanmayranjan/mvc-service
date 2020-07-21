@@ -5,7 +5,6 @@ import org.sunbird.common.JsonUtils;
 import org.sunbird.search.util.SearchConstants;
 
 public class ReadJson {
-    GetContentDefinition getContentDefinition = new GetContentDefinition();
     public void read(String json) {
         try {
             JSONObject contentobj;
@@ -23,8 +22,11 @@ public class ReadJson {
                     sourceurl = null;
                 }
                 if (sourceurl != null) {
-                    // get content definition
-                    getContentDefinition.getDefinition(contentobj,sourceurl);
+                    if(GetContentDefinition.validateSourceURL(sourceurl)) {
+                        // get content definition
+                        GetContentDefinition.getDefinition(contentobj,sourceurl);
+
+                    }
             }
           }
         }

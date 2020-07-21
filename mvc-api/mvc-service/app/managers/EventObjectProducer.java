@@ -8,8 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.UUID;
 
 public class EventObjectProducer {
-    EventProducer eventProducer = new EventProducer();
-    public void addToEventObj(JSONObject content, String contentId) throws Exception  {
+    public static void addToEventObj(JSONObject content, String contentId) throws Exception  {
 
             JSONObject eventObj = JsonUtils.deserialize(SearchConstants.autocreatejobevent, JSONObject.class);
             final long timeinmillisecond = System.currentTimeMillis();
@@ -24,7 +23,7 @@ public class EventObjectProducer {
             LinkedHashMap<String,Object> edata = (LinkedHashMap<String,Object>) eventObj.get("edata");
             edata.put("repository", SearchConstants.vidyadaanurl + contentId);
             edata.put("metadata", content);
-            eventProducer.writeToKafka(eventObj.toString(), SearchConstants.mvctopic);
+            EventProducer.writeToKafka(eventObj.toString(), SearchConstants.mvctopic);
 
     }
 }

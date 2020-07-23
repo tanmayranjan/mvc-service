@@ -1,21 +1,23 @@
 package managers;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.sunbird.common.JsonUtils;
 import org.sunbird.search.util.SearchConstants;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ReadJson {
     GetContentDefinition getContentDefinition = new GetContentDefinition();
     public void read(String json) {
         try {
-            JSONObject contentobj;
-            JSONObject obj = JsonUtils.deserialize(json,JSONObject.class);
-            JSONObject req = (JSONObject) obj.get("request");
-            JSONArray contentarr = (JSONArray) req.get("content");
+            Map<String,Object> contentobj;
+            Map<String,Object> obj = JsonUtils.deserialize(json,Map.class);
+            Map<String,Object> req = (LinkedHashMap<String,Object>) obj.get("request");
+            ArrayList<Object> contentarr = (ArrayList<Object>) req.get("content");
             String sourceurl;
             int contentarrlen = contentarr.size() > SearchConstants.contentArrayLimit ? SearchConstants.contentArrayLimit : contentarr.size();
             for (int j = 0; j < contentarrlen; j++) {
-                contentobj = (JSONObject) contentarr.get(j);
+                contentobj = (Map<String,Object>) contentarr.get(j);
                 if(contentobj.get("sourceURL") != null) {
                     sourceurl =  contentobj.get("sourceURL").toString();
                 }

@@ -1,8 +1,5 @@
 package managers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.sunbird.common.JsonUtils;
 import org.sunbird.search.util.SearchConstants;
 

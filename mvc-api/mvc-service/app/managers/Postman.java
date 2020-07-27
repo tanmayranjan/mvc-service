@@ -10,10 +10,11 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
-import org.json.JSONObject;
 import org.apache.http.protocol.HTTP;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Postman {
     private static HttpClient client;
@@ -48,7 +49,7 @@ public class Postman {
             }
             return  strResponse;
     }
-    public static JSONObject GET(String url)throws Exception {
+    public static Map<String,Object> GET(String url)throws Exception {
         HttpGet get = new HttpGet(url);
         String strResponse = null;
         get.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -56,7 +57,7 @@ public class Postman {
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(response.getEntity().getContent()));
         int statuscode = response.getStatusLine().getStatusCode();
-        JSONObject resp = new JSONObject();
+        Map<String,Object> resp = new HashMap<String,Object>();
         resp.put("statuscode",statuscode);
         String line;
 

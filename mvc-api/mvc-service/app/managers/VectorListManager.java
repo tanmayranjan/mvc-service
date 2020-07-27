@@ -1,11 +1,10 @@
 package managers;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.sunbird.common.JsonUtils;
 import org.sunbird.search.util.SearchConstants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,18 +35,18 @@ public class VectorListManager {
             if(text.equals("")) {
                 return null;
             }
-            JSONObject obj = new JSONObject(SearchConstants.mlvectorListRequest);
-            JSONObject req = ((JSONObject) (obj.get("request")));
-            JSONArray text1 = (JSONArray) req.get("text");
-            text1.put(text);
-            JSONObject respobj = new JSONObject(Postman.POST(obj.toString(), SearchConstants.mlvectorurl));
-            JSONObject result = (JSONObject) respobj.get("result");
-            JSONArray contentTextVectorList = result.get("vector") != null ? (JSONArray) result.get("vector") : null;
+            Map<String,Object> obj = JsonUtils.deserialize(SearchConstants.mlvectorListRequest,Map.class);
+            Map<String,Object> req = ((HashMap<String,Object>) (obj.get("request")));
+            ArrayList<Object> text1 = (ArrayList<Object>) req.get("text");
+            text1.add(text);
+            Map<String,Object> respobj = JsonUtils.deserialize(Postman.POST(obj.toString(), SearchConstants.mlvectorurl),Map.class);
+            Map<String,Object> result = (HashMap<String,Object>) respobj.get("result");
+            ArrayList<Object> contentTextVectorList = result.get("vector") != null ? (ArrayList<Object>) result.get("vector") : null;
             if (contentTextVectorList != null) {
-                contentTextVectorList = (JSONArray) contentTextVectorList.get(0);
+                contentTextVectorList = (ArrayList<Object>) contentTextVectorList.get(0);
                 ArrayList<Double> vector= new ArrayList<Double>();
-                for(int i = 0 ; i < contentTextVectorList.length() ; i++) {
-                    vector.add(contentTextVectorList.getDouble(i));
+                for(int i = 0 ; i < contentTextVectorList.size() ; i++) {
+                    vector.add((Double) contentTextVectorList.get(i));
                 }
                 strReq.put("query_vector", vector);
             }

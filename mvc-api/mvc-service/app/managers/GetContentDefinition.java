@@ -4,7 +4,6 @@ import org.sunbird.common.JsonUtils;
 import org.sunbird.search.util.SearchConstants;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class GetContentDefinition {
@@ -29,13 +28,12 @@ public class GetContentDefinition {
                 contentId = sourceurl.substring(sourceurl.lastIndexOf('/') + 1);
                 resp = Postman.GET(SearchConstants.dikshaurl + SearchConstants.contentreadapi + contentId).get("response").toString();
                 Map<String,Object> respobj = JsonUtils.deserialize(resp,Map.class);
-                LinkedHashMap<String,Object> result = (LinkedHashMap<String,Object>) respobj.get("result");
+                Map<String,Object> result = (HashMap<String,Object>) respobj.get("result");
 
-                LinkedHashMap<String,Object> content = (LinkedHashMap<String,Object>) result.get("content");
-                Map<String,Object> newobj = new HashMap<String,Object>(content);
-                // club metadata of diksha and from csv/json
-                newobj.putAll(contentobj);
-               EventObjectProducer.addToEventObj(newobj, contentId);
+                Map<String,Object> content = (HashMap<String,Object>) result.get("content");
+                // club metadata of diksha and from json
+                content.putAll(contentobj);
+               EventObjectProducer.addToEventObj(content, contentId);
 
         }
         catch(Exception e)

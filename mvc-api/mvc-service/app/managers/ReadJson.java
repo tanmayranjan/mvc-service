@@ -3,17 +3,17 @@ import org.sunbird.common.JsonUtils;
 import org.sunbird.search.util.SearchConstants;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ReadJson {
+    String sourceurl = "";
     public void read(String json) {
         try {
             Map<String,Object> contentobj;
             Map<String,Object> obj = JsonUtils.deserialize(json,Map.class);
-            Map<String,Object> req = (LinkedHashMap<String,Object>) obj.get("request");
+            Map<String,Object> req = (HashMap<String,Object>) obj.get("request");
             ArrayList<Object> contentarr = (ArrayList<Object>) req.get("content");
-            String sourceurl;
             int contentarrlen = contentarr.size() > SearchConstants.contentArrayLimit ? SearchConstants.contentArrayLimit : contentarr.size();
             for (int j = 0; j < contentarrlen; j++) {
                 contentobj = (Map<String,Object>) contentarr.get(j);
@@ -33,7 +33,7 @@ public class ReadJson {
           }
         }
         catch (Exception e) {
-            System.out.println(e);
+            GetContentDefinition.insertintoFailedEventTopic(sourceurl);
         }
 
     }

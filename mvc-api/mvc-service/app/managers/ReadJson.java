@@ -13,6 +13,11 @@ public class ReadJson {
     Logger logger = LoggerFactory.getLogger(ReadJson.class);
     public void read(String json) {
         try {
+            Map<String, String> env = System.getenv();
+            logger.info("All environment variables are :");
+            for (Map.Entry<String, String> entry : env.entrySet()) {
+            logger.info(entry.getKey() + " : " + entry.getValue());
+        }
             logger.info("Environment is " + System.getenv("env_name"));
             Map<String,Object> contentobj;
             Map<String,Object> obj = JsonUtils.deserialize(json,Map.class);

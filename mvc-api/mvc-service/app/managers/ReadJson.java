@@ -13,7 +13,7 @@ public class ReadJson {
     Logger logger = LoggerFactory.getLogger(ReadJson.class);
     public void read(String json) {
         try {
-            logger.info("Environment is " + System.getenv("env"));
+            logger.info("Environment is " + System.getenv("env_name"));
             Map<String,Object> contentobj;
             Map<String,Object> obj = JsonUtils.deserialize(json,Map.class);
             Map<String,Object> req = (LinkedHashMap<String,Object>) obj.get("request");

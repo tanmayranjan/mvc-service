@@ -1,5 +1,6 @@
 package managers;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sunbird.common.JsonUtils;
 import org.sunbird.search.util.SearchConstants;
 
@@ -9,7 +10,7 @@ import java.util.Map;
 
 public class ReadJson {
     GetContentDefinition getContentDefinition = new GetContentDefinition();
-    private  Logger logger;
+    Logger logger = LoggerFactory.getLogger(ReadJson.class);
     public void read(String json) {
         try {
             logger.info("Environment is " + System.getenv("env"));

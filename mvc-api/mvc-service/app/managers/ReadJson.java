@@ -1,4 +1,5 @@
 package managers;
+import org.slf4j.Logger;
 import org.sunbird.common.JsonUtils;
 import org.sunbird.search.util.SearchConstants;
 
@@ -8,8 +9,10 @@ import java.util.Map;
 
 public class ReadJson {
     GetContentDefinition getContentDefinition = new GetContentDefinition();
+    private  Logger logger;
     public void read(String json) {
         try {
+            logger.info("Environment is " + System.getenv("env"));
             Map<String,Object> contentobj;
             Map<String,Object> obj = JsonUtils.deserialize(json,Map.class);
             Map<String,Object> req = (LinkedHashMap<String,Object>) obj.get("request");

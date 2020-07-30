@@ -20,6 +20,9 @@ public class EventObjectProducer {
             object.put("id", contentId);
             Map<String,Object> context = (Map<String,Object>) eventObj.get("context");
             context.put("channel", content.get("channel").toString());
+            if(content.containsKey("concepts")) {
+                    content.remove("concepts");
+            }
             Map<String,Object> edata = (Map<String,Object>) eventObj.get("edata");
             edata.put("repository", SearchConstants.vidyadaanurl + contentId);
             edata.put("metadata", content);

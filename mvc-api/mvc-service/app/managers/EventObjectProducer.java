@@ -23,6 +23,9 @@ public class EventObjectProducer {
             if(content.containsKey("concepts")) {
                     content.remove("concepts");
             }
+            if(content.containsKey("questions")) {
+                    content.remove("questions");
+            }
             Map<String,Object> edata = (Map<String,Object>) eventObj.get("edata");
             edata.put("repository", SearchConstants.vidyadaanurl + contentId);
             edata.put("metadata", content);

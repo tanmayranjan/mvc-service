@@ -32,7 +32,7 @@ class MVCContentController @Inject()(cc: ControllerComponents) (implicit exec: E
       Future(Ok(response).as("application/json"))
     }
     else {
-      result = ResponseHandler.ERROR(ResponseCode.CLIENT_ERROR,"400","Bad Request,Please provide valid input")
+      result = ResponseHandler.ERROR(ResponseCode.CLIENT_ERROR,String.valueOf(ResponseCode.CLIENT_ERROR),"Bad Request,Please provide valid input")
       result.setTs((DateTime.now(DateTimeZone.UTC).getMillis().toString))
       result.setId(id)
       result.putAll(jmap)

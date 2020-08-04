@@ -29,6 +29,9 @@ public class ReadJson {
                         GetContentDefinition.getDefinition(contentobj,sourceurl);
 
                     }
+                    else {
+                        GetContentDefinition.insertintoFailedEventTopic(sourceurl);
+                    }
             }
           }
         }

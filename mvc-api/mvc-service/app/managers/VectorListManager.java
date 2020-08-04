@@ -1,3 +1,4 @@
+/*
 package managers;
 
 import org.sunbird.common.JsonUtils;
@@ -67,3 +68,4 @@ public class VectorListManager {
         return text;
     }
 }
+*/

@@ -1,6 +1,7 @@
 package managers;
 
 import org.sunbird.common.JsonUtils;
+import org.sunbird.common.Platform;
 import org.sunbird.search.util.SearchConstants;
 import java.util.Map;
 import java.util.UUID;
@@ -21,7 +22,7 @@ public class EventObjectProducer {
                 Map<String,Object> edata = (Map<String,Object>) eventObj.get("edata");
                 edata.put("repository", SearchConstants.vidyadaanurl + contentId);
                 edata.put("metadata", content);
-                EventProducer.writeToKafka(JsonUtils.serialize(eventObj), SearchConstants.mvctopic);
+                EventProducer.writeToKafka(JsonUtils.serialize(eventObj), Platform.config.getString("kafka.topics.instruction"));
 
         }
 }

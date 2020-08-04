@@ -5,7 +5,6 @@ import java.util.UUID
 
 import akka.actor.ActorRef
 import akka.pattern.Patterns
-import managers.{Postman, VectorListManager}
 import org.apache.commons.lang3.StringUtils
 import org.sunbird.common.dto.{RequestParams, Response, ResponseHandler}
 import org.sunbird.common.exception.ResponseCode

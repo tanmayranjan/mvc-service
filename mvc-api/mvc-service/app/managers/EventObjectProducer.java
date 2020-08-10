@@ -21,6 +21,12 @@ public class EventObjectProducer {
                 context.put("channel", content.get("channel").toString());
                 Map<String,Object> edata = (Map<String,Object>) eventObj.get("edata");
                 edata.put("repository", SearchConstants.vidyadaanurl + contentId);
+                 if(content.containsKey("concepts")) {
+                    content.remove("concepts");
+                   }
+                 if(content.containsKey("questions")) {
+                    content.remove("questions");
+                  }
                 edata.put("metadata", content);
                 EventProducer.writeToKafka(JsonUtils.serialize(eventObj), Platform.config.getString("kafka.topics.instruction"));
 

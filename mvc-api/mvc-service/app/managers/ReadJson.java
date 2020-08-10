@@ -5,6 +5,7 @@ import org.sunbird.search.util.SearchConstants;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class ReadJson {
     String sourceurl = "";
@@ -26,6 +27,7 @@ public class ReadJson {
                 if (sourceurl != null) {
                     if(GetContentDefinition.validateSourceURL(sourceurl)) {
                         // get content definition
+                        contentobj = checkForValidParamsForMVCContent(contentobj);
                         GetContentDefinition.getDefinition(contentobj,sourceurl);
 
                     }
@@ -40,6 +42,23 @@ public class ReadJson {
         }
 
     }
+    private Map<String, Object> checkForValidParamsForMVCContent(Map<String, Object> contentobj) {
+        String mvcContentParams[] = {"board","subject","medium","gradeLevel","textbook_name","source","sourceURL","contentType","level1Name","level1Concept","level2Name","level2Concept","level3Name","level3Concept"};
+        boolean found = false;
+        Set<String> properties = contentobj.keySet();
+        for(String property : properties) {
+            for (int j = 0 ; j < mvcContentParams.length ; j++) {
+                if(mvcContentParams[j].equals(property)){
+                    found = true;
+                    break;
+                }
+            }
+            if(!found){
+                contentobj.remove(property);
+            }
+        }
 
+        return contentobj;
+    }
 
 }

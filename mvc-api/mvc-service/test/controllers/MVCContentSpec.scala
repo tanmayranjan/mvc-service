@@ -41,14 +41,14 @@ class MVCContentSpec extends BaseSpec {
   "MVCContent" should {
     "return 200 if request is valid" in {
       val controller = app.injector.instanceOf[controllers.MVCContentController]
-      val response = controller.createUsingJson()(FakeRequest().withJsonBody(json))
+      val response = controller.createUsingJson(None)(FakeRequest().withJsonBody(json))
       isOK(response)
       status(response)must equalTo(OK)
     }
 
     "return 400 if request is valid" in {
       val controller = app.injector.instanceOf[controllers.MVCContentController]
-      val response = controller.createUsingJson()(FakeRequest())
+      val response = controller.createUsingJson(None)(FakeRequest())
       hasClientError(response)
       status(response) must equalTo(400)
     }

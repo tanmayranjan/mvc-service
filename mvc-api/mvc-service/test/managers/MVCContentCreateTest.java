@@ -38,7 +38,7 @@ public void setup(){
         PowerMockito.mockStatic(Postman.class);
         Mockito.when(Postman.GET(Mockito.anyString())).thenReturn(validateResponse);
         ReadJson readJson = new ReadJson();
-        readJson.read(req);
+        readJson.read(req,false);
     }
     @Test
     public void testContentCreateIfSourceURLisInValid() throws Exception {
@@ -49,7 +49,7 @@ public void setup(){
         PowerMockito.mockStatic(Postman.class);
         Mockito.when(Postman.GET(Mockito.anyString())).thenReturn(validateResponse);
         ReadJson readJson = new ReadJson();
-        readJson.read(req);
+        readJson.read(req,false);
     }
     @Test
     public void testContentCreateIfStatusCodeHasError() throws Exception {
@@ -59,7 +59,7 @@ public void setup(){
         PowerMockito.mockStatic(Postman.class);
         Mockito.when(Postman.GET(Mockito.anyString())).thenReturn(Mockito.anyMap());
         ReadJson readJson = new ReadJson();
-        readJson.read(req);
+        readJson.read(req,false);
     }
     @Test
     public void testContentCreateIfContentMetaHasError() throws Exception {
@@ -70,7 +70,7 @@ public void setup(){
         PowerMockito.mockStatic(Postman.class);
         Mockito.when(Postman.GET(Mockito.anyString())).thenReturn(validateResponse);
         ReadJson readJson = new ReadJson();
-        readJson.read(req);
+        readJson.read(req,false);
     }
     public Map<String, Object> getEvent(String message) throws IOException {
         return  mapper.readValue(message,Map.class);

@@ -114,9 +114,9 @@ public class SearchConstants {
     public static String soft = "soft";
     public static String mlvectorurl = "http://127.0.0.1:1729/ml/vector/search";
     public static String mlvectorListRequest = "{\"request\":{\"text\":[],\"language\":\"en\",\"method\":\"BERT\",\"params\":{\"dim\":768,\"seq_len\":25}}}";
-    public static String dikshaurl = "https://diksha.gov.in/";
+    public static String dikshaurl = "https://diksha.gov.in";
     public static String vidyadaanurl = "https://dock.sunbirded.org/";
-    public static String contentreadapi = "api/content/v1/read/";
+    public static String contentreadapi = "/api/content/v1/read/";
     public static String autocreatejobevent = "{\"eid\":\"BE_JOB_REQUEST\",\"mid\":\"\",\"actor\":{\"id\":\"Auto Creator\",\"type\":\"System\"},\"context\":{\"pdata\":{\"ver\":\"1.0\",\"id\":\"org.ekstep.platform\"},\"channel\":\"\"},\"object\":{\"ver\":\"1.0\",\"id\":\"\"},\"edata\":{\"action\":\"auto-create\",\"iteration\":1,\"objectType\":\"Content\",\"repository\":\"\",\"metadata\":{}}}";
     public static String mvcFailedtopic = "sunbirddock.auto.creation.job.failedevent";
     public static int contentArrayLimit = 10;

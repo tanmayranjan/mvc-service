@@ -1,5 +1,6 @@
 package managers;
 import org.sunbird.common.JsonUtils;
+import org.sunbird.common.Platform;
 import org.sunbird.search.util.SearchConstants;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.Set;
 
 public class ReadJson {
     String sourceurl = "";
-    public void read(String json) {
+    public void read(String json,boolean flagformvc) {
         try {
             Map<String,Object> contentobj;
             Map<String,Object> obj = JsonUtils.deserialize(json,Map.class);
@@ -28,7 +29,7 @@ public class ReadJson {
                     if(GetContentMetadata.validateSourceURL(sourceurl)) {
                         // get content definition
                         contentobj = checkForValidParamsForMVCContent(contentobj);
-                        GetContentMetadata.getDefinition(contentobj,sourceurl);
+                        GetContentMetadata.getDefinition(contentobj,sourceurl,flagformvc);
 
                     }
                     else {

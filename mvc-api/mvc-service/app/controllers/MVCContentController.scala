@@ -13,17 +13,19 @@ import scala.collection.JavaConverters._
 
 class MVCContentController @Inject()(cc: ControllerComponents) (implicit exec: ExecutionContext) extends SearchBaseController(cc) {
   val readJson: ReadJson = new ReadJson()
-  @transient val mapper = new ObjectMapper();
-  mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-  def createUsingJson() = Action.async { implicit request =>
+  @transient val mapper = new ObjectMapper()
+  mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+  def createUsingJson(mode: Option[String]) = Action.async { implicit request =>
     val body = request.body.asJson.getOrElse("{}").toString
     val id = randomUUID().toString
     val jmap = new java.util.HashMap[String, Object]()
+    val modeformvc = mode.getOrElse("")
+    val flag = if( modeformvc.equals("mvc")) true else false
     jmap.put("id", id)
     var result = ResponseHandler.OK()
     if(!body.equals("{}")) {
       Future {
-       readJson.read(body)
+       readJson.read(body,flag)
       }
       result.setTs((DateTime.now(DateTimeZone.UTC).getMillis().toString))
       result.setId(id)

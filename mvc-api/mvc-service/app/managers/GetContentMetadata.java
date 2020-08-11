@@ -1,6 +1,7 @@
 package managers;
 
 import org.sunbird.common.JsonUtils;
+import org.sunbird.common.Platform;
 import org.sunbird.search.util.SearchConstants;
 
 import java.util.HashMap;
@@ -22,11 +23,16 @@ public class GetContentMetadata {
 
         return false;
     }
-    public static void getDefinition(Map<String,Object> contentobj, String sourceurl) {
+    public static void getDefinition(Map<String,Object> contentobj, String sourceurl,boolean flagforMVC) {
+        String contentreadurl = Platform.config.getString("sunbird_content_url"), contentreadapi = "/content/v3/read/";
+        if(flagforMVC) {
+            contentreadurl = SearchConstants.dikshaurl;
+            contentreadapi = SearchConstants.contentreadapi;
+        }
         String resp = "", contentId = "";
         try {
                 contentId = sourceurl.substring(sourceurl.lastIndexOf('/') + 1);
-                resp = Postman.GET(SearchConstants.dikshaurl + SearchConstants.contentreadapi + contentId).get("response").toString();
+                resp = Postman.GET(contentreadurl + contentreadapi + contentId).get("response").toString();
                 Map<String,Object> respobj = JsonUtils.deserialize(resp,Map.class);
                 Map<String,Object> result = (HashMap<String,Object>) respobj.get("result");
 

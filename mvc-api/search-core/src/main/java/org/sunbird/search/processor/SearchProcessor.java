@@ -244,8 +244,7 @@ public class SearchProcessor {
 
       	searchSourceBuilder.query(query);
 		if (sortBy && !relevanceSort
-				&& (null == searchDTO.getSoftConstraints() || searchDTO.getSoftConstraints().isEmpty())
-				&& (searchDTO.getQueryvector() == null || searchDTO.getQueryvector().isEmpty())) {
+				&& (null == searchDTO.getSoftConstraints() || searchDTO.getSoftConstraints().isEmpty())) {
 			Map<String, String> sorting = searchDTO.getSortBy();
 			if (sorting == null || sorting.isEmpty()) {
 				sorting = new HashMap<String, String>();
@@ -423,14 +422,6 @@ public class SearchProcessor {
 			boolQuery.should(getSoftConstraintQuery(softConstraints));
 			searchDTO.setSortBy(null);
 			// relevanceSort = true;
-		}
-		if(searchDTO.getQueryvector() != null) {
-			Map<String, Object> parameters = new HashMap<>();
-			parameters.put("query_vector", searchDTO.getQueryvector());
-			Script script = new Script(ScriptType.INLINE,"painless","(cosineSimilarity(params.query_vector, doc['ml_contentTextVector']) + 1.0)",parameters);
-			queryBuilder = QueryBuilders.scriptScoreQuery(QueryBuilders.matchAllQuery(),script);
-			boolQuery.should(queryBuilder);
-			searchDTO.setSortBy(null);
 		}
 		return boolQuery;
 	}

@@ -96,12 +96,7 @@ abstract class SearchBaseController(protected val cc: ControllerComponents)(impl
                 }
                 val requestObj: AnyRef = requestMap.get("request")
                 if (null != requestObj) try {
-                    var strRequest: String = JsonUtils.serialize(requestObj)
-                    // Vector API integration by Tanmay
-                    /*val strRequestnew = new VectorListManager().setVectorList(strRequest);
-                    if(strRequestnew != null) {
-                        strRequest = JsonUtils.serialize(strRequestnew)
-                    }*/
+                    val strRequest: String = JsonUtils.serialize(requestObj)
                     val map: java.util.Map[String, AnyRef] = JsonUtils.deserialize(strRequest, classOf[java.util.Map[String, Object]])
                     if (null != map && !map.isEmpty) {
                         request.setRequest(map)

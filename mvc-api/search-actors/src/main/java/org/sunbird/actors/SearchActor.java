@@ -103,9 +103,6 @@ public class SearchActor extends SearchBaseActor {
             Boolean wordChainsRequest = (Boolean) request.get("traversal");
             if (null == wordChainsRequest)
                 wordChainsRequest = false;
-            Boolean vectorsearch = true;
-            if(null == req.get("query_vector"))
-                vectorsearch = false;
             List<Map> properties = new ArrayList<Map>();
             Map<String, Object> filters = (Map<String, Object>) req.get(SearchConstants.filters);
             if (null == filters)
@@ -155,9 +152,6 @@ public class SearchActor extends SearchBaseActor {
                     }
                 }
                 searchObj.addAdditionalProperty("weightagesMap", weightagesMap);
-            }
-            if(vectorsearch && vectorsearch != null) {
-                searchObj.setQueryvector((List<Double>) request.get("query_vector"));
             }
             List<String> exists = null;
             Object existsObject = req.get(SearchConstants.exists);

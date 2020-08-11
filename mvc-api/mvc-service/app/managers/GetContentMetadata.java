@@ -6,7 +6,7 @@ import org.sunbird.search.util.SearchConstants;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GetContentDefinition {
+public class GetContentMetadata {
     public static boolean validateSourceURL(String sourceurl) {
         String respcode = "";
         try {

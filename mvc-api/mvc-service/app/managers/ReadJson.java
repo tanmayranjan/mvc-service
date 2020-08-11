@@ -25,20 +25,20 @@ public class ReadJson {
                     sourceurl = null;
                 }
                 if (sourceurl != null) {
-                    if(GetContentDefinition.validateSourceURL(sourceurl)) {
+                    if(GetContentMetadata.validateSourceURL(sourceurl)) {
                         // get content definition
                         contentobj = checkForValidParamsForMVCContent(contentobj);
-                        GetContentDefinition.getDefinition(contentobj,sourceurl);
+                        GetContentMetadata.getDefinition(contentobj,sourceurl);
 
                     }
                     else {
-                        GetContentDefinition.insertintoFailedEventTopic(sourceurl);
+                        GetContentMetadata.insertintoFailedEventTopic(sourceurl);
                     }
             }
           }
         }
         catch (Exception e) {
-            GetContentDefinition.insertintoFailedEventTopic(sourceurl);
+            GetContentMetadata.insertintoFailedEventTopic(sourceurl);
         }
 
     }

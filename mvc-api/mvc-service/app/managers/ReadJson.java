@@ -1,4 +1,6 @@
 package managers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sunbird.common.JsonUtils;
 import org.sunbird.common.Platform;
 import org.sunbird.search.util.SearchConstants;
@@ -10,6 +12,7 @@ import java.util.Set;
 
 public class ReadJson {
     String sourceurl = "";
+     Logger logger = LoggerFactory.getLogger(ReadJson.class);
     public void read(String json,boolean flagformvc) {
         try {
             Map<String,Object> contentobj;
@@ -29,7 +32,7 @@ public class ReadJson {
                     if(GetContentMetadata.validateSourceURL(sourceurl)) {
                         // get content definition
                         contentobj = checkForValidParamsForMVCContent(contentobj);
-                        GetContentMetadata.getDefinition(contentobj,sourceurl,flagformvc);
+                        GetContentMetadata.getMetadata(contentobj,sourceurl,flagformvc);
 
                     }
                     else {
@@ -39,6 +42,7 @@ public class ReadJson {
           }
         }
         catch (Exception e) {
+            logger.info("ReadJson :: reading json ::: Exception is " + e + " sourceurl is " + sourceurl);
             GetContentMetadata.insertintoFailedEventTopic(sourceurl);
         }
 

@@ -29,7 +29,7 @@ public void setup(){
 }
 
     @Test
-  public void testContentCreateIfTrue() throws Exception {
+  public void testContentCreateIfValidContent() throws Exception {
         validateResponse.put("statuscode","200");
         validateResponse.put("response",getResponse);
         PowerMockito.mockStatic(EventProducer.class);

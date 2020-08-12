@@ -17,6 +17,8 @@ import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder.FilterFunctionBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
+import org.elasticsearch.script.Script;
+import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.aggregations.Aggregation;
@@ -234,15 +236,13 @@ public class SearchProcessor {
 				groupByFinalList.add(groupByMap);
 			}
 		}
-
 		searchSourceBuilder.size(searchDTO.getLimit());
 		searchSourceBuilder.from(searchDTO.getOffset());
 		QueryBuilder query = getSearchQuery(searchDTO);
 		if (searchDTO.isFuzzySearch())
 			relevanceSort = true;
 
-		searchSourceBuilder.query(query);
-
+      	searchSourceBuilder.query(query);
 		if (sortBy && !relevanceSort
 				&& (null == searchDTO.getSoftConstraints() || searchDTO.getSoftConstraints().isEmpty())) {
 			Map<String, String> sorting = searchDTO.getSortBy();

@@ -21,8 +21,6 @@ public class SearchDTO {
     private List<Map<String, Object>> aggregations = new ArrayList<>();
     private List<Map> implicitFilterProperties;
 
-
-
     public SearchDTO() {
         super();
     }
@@ -65,7 +63,6 @@ public class SearchDTO {
     public void setSortBy(Map<String, String> sortBy) {
         this.sortBy = sortBy;
     }
-
     public boolean isFuzzySearch() {
         return fuzzySearch;
     }

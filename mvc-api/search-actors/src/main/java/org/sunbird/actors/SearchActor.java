@@ -153,7 +153,6 @@ public class SearchActor extends SearchBaseActor {
                 }
                 searchObj.addAdditionalProperty("weightagesMap", weightagesMap);
             }
-
             List<String> exists = null;
             Object existsObject = req.get(SearchConstants.exists);
             if (existsObject instanceof List) {

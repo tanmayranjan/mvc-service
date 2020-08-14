@@ -6,8 +6,10 @@ import org.sunbird.search.util.SearchConstants;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 public class GetContentMetadata {
+    static Logger logger = LoggerFactory.getLogger(GetContentMetadata.class);
     public static boolean validateSourceURL(String sourceurl) {
         String respcode = "";
         try {
@@ -18,12 +20,13 @@ public class GetContentMetadata {
             }
         }
         catch (Exception e) {
+            logger.info("GetContentMetadata :: ValidateSourceUrl ::: Exception is " + e + "\n Source url is " + sourceurl);
             insertintoFailedEventTopic(sourceurl);
         }
 
         return false;
     }
-    public static void getDefinition(Map<String,Object> contentobj, String sourceurl,boolean flagforMVC) {
+    public static void getMetadata(Map<String,Object> contentobj, String sourceurl,boolean flagforMVC) {
         String contentreadurl = Platform.config.getString("sunbird_content_url"), contentreadapi = "/content/v3/read/";
         if(flagforMVC) {
             contentreadurl = SearchConstants.dikshaurl;
@@ -44,11 +47,12 @@ public class GetContentMetadata {
         }
         catch(Exception e)
         {
-        System.out.println(e);
+            logger.info("GetContentMetadata :: getMetadata ::: Exception is " + e + "\n ContentObject is " + contentobj.toString());
             insertintoFailedEventTopic(sourceurl);
         }
      }
   public  static void insertintoFailedEventTopic(String sourceurl){
+      logger.info("GetContentMetadata :: insertintoFailedEventTopic ::: SourceURL is " + sourceurl);
         Map<String,Object> failedObj = new HashMap<String,Object>();
         failedObj.put("sourceURL", sourceurl);
         EventProducer.writeToKafka(failedObj.toString(), SearchConstants.mvcFailedtopic);

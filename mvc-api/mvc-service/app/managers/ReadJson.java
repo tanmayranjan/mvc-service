@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 public class ReadJson {
+    Logger logger = LoggerFactory.getLogger(ReadJson.class);
     String sourceurl = "";
     public void read(String json,boolean flagformvc) {
         try {
@@ -29,7 +31,7 @@ public class ReadJson {
                     if(GetContentMetadata.validateSourceURL(sourceurl)) {
                         // get content definition
                         contentobj = checkForValidParamsForMVCContent(contentobj);
-                        GetContentMetadata.getDefinition(contentobj,sourceurl,flagformvc);
+                        GetContentMetadata.getMetadata(contentobj,sourceurl,flagformvc);
 
                     }
                     else {
@@ -39,6 +41,7 @@ public class ReadJson {
           }
         }
         catch (Exception e) {
+            logger.info("ReadJson :: reading json ::: Exception is " + e + " sourceurl is " + sourceurl);
             GetContentMetadata.insertintoFailedEventTopic(sourceurl);
         }
 

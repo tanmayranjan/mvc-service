@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class EventObjectProducer {
+    private static String processID;
         public static void addToEventObj(Map<String,Object> content, String contentId) throws Exception  {
 
                 Map<String,Object> eventObj = JsonUtils.deserialize(SearchConstants.autocreatejobevent, Map.class);
@@ -27,8 +28,16 @@ public class EventObjectProducer {
                  if(content.containsKey("questions")) {
                     content.remove("questions");
                   }
+                 content.put("processId",getContentProcessId());
                 edata.put("metadata", content);
                 EventProducer.writeToKafka(JsonUtils.serialize(eventObj), Platform.config.getString("kafka.topics.instruction"));
 
         }
+      public void setContentProcessID(String id) {
+          this.processID = id;
+        }
+        public static String getContentProcessId(){
+               return processID;
+        }
+
 }

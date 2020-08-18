@@ -5,6 +5,7 @@ import java.util.UUID
 
 import akka.actor.ActorRef
 import akka.pattern.Patterns
+import managers.VectorListManager
 import org.apache.commons.lang3.StringUtils
 import org.sunbird.common.dto.{RequestParams, Response, ResponseHandler}
 import org.sunbird.common.exception.ResponseCode
@@ -98,10 +99,10 @@ abstract class SearchBaseController(protected val cc: ControllerComponents)(impl
                 if (null != requestObj) try {
                     var strRequest: String = JsonUtils.serialize(requestObj)
                     // Vector API integration by Tanmay
-                    /*val strRequestnew = new VectorListManager().setVectorList(strRequest);
+                    val strRequestnew = new VectorListManager().setVectorList(strRequest);
                     if(strRequestnew != null) {
                         strRequest = JsonUtils.serialize(strRequestnew)
-                    }*/
+                    }
                     val map: java.util.Map[String, AnyRef] = JsonUtils.deserialize(strRequest, classOf[java.util.Map[String, Object]])
                     if (null != map && !map.isEmpty) {
                         request.setRequest(map)

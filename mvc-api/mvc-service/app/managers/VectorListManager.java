@@ -1,7 +1,7 @@
-/*
 package managers;
 
 import org.sunbird.common.JsonUtils;
+import org.sunbird.common.Platform;
 import org.sunbird.search.util.SearchConstants;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class VectorListManager {
             Map<String,Object> req = ((HashMap<String,Object>) (obj.get("request")));
             ArrayList<Object> text1 = (ArrayList<Object>) req.get("text");
             text1.add(text);
-            Map<String,Object> respobj = JsonUtils.deserialize(Postman.POST(obj.toString(), SearchConstants.mlvectorurl),Map.class);
+            Map<String,Object> respobj = JsonUtils.deserialize(Postman.POST(obj.toString(), Platform.config.getString("ml_vector_api")),Map.class);
             Map<String,Object> result = (HashMap<String,Object>) respobj.get("result");
             ArrayList<Object> contentTextVectorList = result.get("vector") != null ? (ArrayList<Object>) result.get("vector") : null;
             if (contentTextVectorList != null) {
@@ -68,4 +68,3 @@ public class VectorListManager {
         return text;
     }
 }
-*/

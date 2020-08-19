@@ -105,7 +105,7 @@ public class SearchProcessor {
 		Map<String, Object> response = new HashMap<String, Object>();
 		SearchSourceBuilder searchSourceBuilder = processSearchQuery(searchDTO, null, false);
 		searchSourceBuilder.from(searchDTO.getOffset()).size(0);
-		int countResult = ElasticSearchUtil.count(SearchConstants.COMPOSITE_SEARCH_INDEX,
+		int countResult = ElasticSearchUtil.count(SearchConstants.MVC_SEARCH_INDEX,
 				searchSourceBuilder);
 		response.put("count", countResult);
 

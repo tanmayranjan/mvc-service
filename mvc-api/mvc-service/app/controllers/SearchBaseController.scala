@@ -72,7 +72,7 @@ abstract class SearchBaseController(protected val cc: ControllerComponents)(impl
         response.getParams.setResmsgid(UUID.randomUUID().toString)
     }
 
-    protected def getRequest(apiId: String)(implicit playRequest: play.api.mvc.Request[AnyContent]): org.sunbird.common.dto.Request = {
+    protected def getRequest(apiId: String,mode: String="")(implicit playRequest: play.api.mvc.Request[AnyContent]): org.sunbird.common.dto.Request = {
         val request: org.sunbird.common.dto.Request = new org.sunbird.common.dto.Request
         if (null != playRequest) {
             val body = playRequest.body.asJson.getOrElse("{}").toString
@@ -99,9 +99,10 @@ abstract class SearchBaseController(protected val cc: ControllerComponents)(impl
                 if (null != requestObj) try {
                     var strRequest: String = JsonUtils.serialize(requestObj)
                     // Vector API integration by Tanmay
-                    val strRequestnew = new VectorListManager().setVectorList(strRequest);
-                    if(strRequestnew != null) {
-                        strRequest = JsonUtils.serialize(strRequestnew)
+                    if(mode != "" && mode.equals("vector")) {
+                        val strRequestnew = new VectorListManager().setVectorList(strRequest);
+                        if(strRequestnew != null)
+                         strRequest = JsonUtils.serialize(strRequestnew)
                     }
                     val map: java.util.Map[String, AnyRef] = JsonUtils.deserialize(strRequest, classOf[java.util.Map[String, Object]])
                     if (null != map && !map.isEmpty) {

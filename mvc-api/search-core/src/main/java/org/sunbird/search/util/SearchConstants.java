@@ -113,7 +113,6 @@ public class SearchConstants {
     public static final String mode = "mode";
     public static final String softConstraints = "softConstraints";
     public static String soft = "soft";
-    public static String mlvectorurl = "http://127.0.0.1:1729/ml/vector/search";
     public static String mlvectorListRequest = "{\"request\":{\"text\":[],\"language\":\"en\",\"method\":\"BERT\",\"params\":{\"dim\":768,\"seq_len\":25}}}";
     public static String dikshaurl = "https://diksha.gov.in";
     public static String vidyadaanurl = "https://dock.sunbirded.org/";

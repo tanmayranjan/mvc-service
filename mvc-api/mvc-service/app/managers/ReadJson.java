@@ -2,15 +2,12 @@ package managers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sunbird.common.JsonUtils;
-import org.sunbird.common.Platform;
 import org.sunbird.search.util.SearchConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 public class ReadJson {
     Logger logger = LoggerFactory.getLogger(ReadJson.class);
     String sourceurl = "";

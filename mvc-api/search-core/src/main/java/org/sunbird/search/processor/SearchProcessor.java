@@ -948,5 +948,4 @@ public class SearchProcessor {
 		return searchDTO.isFuzzySearch() ? prepareFilteredSearchQuery(searchDTO) : prepareSearchQuery(searchDTO);
 	}
 
-
 }

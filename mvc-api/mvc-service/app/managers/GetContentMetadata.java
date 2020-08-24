@@ -1,5 +1,7 @@
 package managers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sunbird.common.JsonUtils;
 import org.sunbird.common.Platform;
 import org.sunbird.search.util.SearchConstants;
@@ -52,7 +54,7 @@ public class GetContentMetadata {
         }
      }
   public  static void insertintoFailedEventTopic(String sourceurl){
-      logger.info("GetContentMetadata :: insertintoFailedEventTopic ::: SourceURL is " + sourceurl);
+        logger.info("GetContentMetadata :: insertintoFailedEventTopic ::: SourceURL is " + sourceurl);
         Map<String,Object> failedObj = new HashMap<String,Object>();
         failedObj.put("sourceURL", sourceurl);
         EventProducer.writeToKafka(failedObj.toString(), SearchConstants.mvcFailedtopic);

@@ -27,15 +27,16 @@ public class EventObjectProducer {
                  if(content.containsKey("questions")) {
                     content.remove("questions");
                   }
-            content.put("processId",getContentProcessId());
+                 content.put("processId",getContentProcessId());
                 edata.put("metadata", content);
                 EventProducer.writeToKafka(JsonUtils.serialize(eventObj), Platform.config.getString("kafka.topics.instruction"));
 
         }
-    public void setContentProcessID(String id) {
-        this.processID = id;
-    }
-    public static String getContentProcessId(){
-        return processID;
-    }
+      public void setContentProcessID(String id) {
+          this.processID = id;
+        }
+        public static String getContentProcessId(){
+               return processID;
+        }
+
 }

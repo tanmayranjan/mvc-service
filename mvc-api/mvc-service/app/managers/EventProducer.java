@@ -1,10 +1,12 @@
 package managers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sunbird.kafka.client.KafkaClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 public class EventProducer {
-    static Logger logger = LoggerFactory.getLogger(EventProducer.class);
+   static Logger logger = LoggerFactory.getLogger(EventProducer.class);
     public static void writeToKafka(String event,String topic) {
         KafkaClient kafkaclientobj = new KafkaClient();
         try {

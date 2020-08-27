@@ -9,7 +9,7 @@ public class EventProducer {
     public static void writeToKafka(String event,String topic) {
         KafkaClient kafkaclientobj = new KafkaClient();
         try {
-           logger.info(" sending an event to kafka topic " + e + "\nEvent is" + event);
+           logger.info(" sending an event to kafka topic where Event is " + event);
             kafkaclientobj.send(event,topic);
             logger.info(" sent an event to kafka topic ");
         }

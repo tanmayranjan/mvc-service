@@ -40,7 +40,7 @@ public class VectorListManager {
             Map<String,Object> req = ((HashMap<String,Object>) (obj.get("request")));
             ArrayList<Object> text1 = (ArrayList<Object>) req.get("text");
             text1.add(text);
-            Map<String,Object> respobj = JsonUtils.deserialize(Postman.POST(obj.toString(), Platform.config.getString("mlworkbench") + ":1729/ml/vector/search"),Map.class);
+            Map<String,Object> respobj = JsonUtils.deserialize(Postman.POST(obj.toString(), Platform.config.getString("ml_vector_api") + ":1729/ml/vector/search"),Map.class);
             Map<String,Object> result = (HashMap<String,Object>) respobj.get("result");
             ArrayList<Object> contentTextVectorList = result.get("vector") != null ? (ArrayList<Object>) result.get("vector") : null;
             if (contentTextVectorList != null) {

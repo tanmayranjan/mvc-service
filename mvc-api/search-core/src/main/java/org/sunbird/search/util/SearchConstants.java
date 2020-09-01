@@ -119,5 +119,5 @@ public class SearchConstants {
     public static String contentreadapi = "/api/content/v1/read/";
     public static String autocreatejobevent = "{\"eid\":\"BE_JOB_REQUEST\",\"mid\":\"\",\"actor\":{\"id\":\"Auto Creator\",\"type\":\"System\"},\"context\":{\"pdata\":{\"ver\":\"1.0\",\"id\":\"org.ekstep.platform\"},\"channel\":\"\"},\"object\":{\"ver\":\"1.0\",\"id\":\"\"},\"edata\":{\"action\":\"auto-create\",\"iteration\":1,\"objectType\":\"Content\",\"repository\":\"\",\"metadata\":{}}}";
     public static String mvcFailedtopic = "sunbirddock.auto.creation.job.failedevent";
-    public static int contentArrayLimit = 10;
+    public static int contentArrayLimit = 30;
 }

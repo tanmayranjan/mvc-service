@@ -51,9 +51,11 @@ public class VectorListManager {
             logger.info("Text on which vector will be generated " + text1);
             logger.info("Making vector api call " + Platform.config.getString("ml_vector_api") + ":1729/ml/vector/search");
             Map<String,Object> respobj = JsonUtils.deserialize(Postman.POST(obj.toString(), Platform.config.getString("ml_vector_api") + ":1729/ml/vector/search"),Map.class);
+            logger.info("Response received from vector search api " + respobj.toString());
             Map<String,Object> result = (HashMap<String,Object>) respobj.get("result");
             ArrayList<Object> contentTextVectorList = result.get("vector") != null ? (ArrayList<Object>) result.get("vector") : null;
             if (contentTextVectorList != null) {
+                logger.info("Content text vector received");
                 contentTextVectorList = (ArrayList<Object>) contentTextVectorList.get(0);
                 ArrayList<Double> vector= new ArrayList<Double>();
                 for(int i = 0 ; i < contentTextVectorList.size() ; i++) {

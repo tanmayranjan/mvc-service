@@ -33,15 +33,11 @@ public class ReadJson {
                         GetContentMetadata.getMetadata(contentobj,sourceurl,flagformvc);
 
                     }
-                    else {
-                        GetContentMetadata.insertintoFailedEventTopic(sourceurl);
-                    }
             }
           }
         }
         catch (Exception e) {
             logger.info("ReadJson :: reading json ::: Exception is " + e + " sourceurl is " + sourceurl);
-            GetContentMetadata.insertintoFailedEventTopic(sourceurl);
         }
 
     }

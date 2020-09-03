@@ -427,7 +427,7 @@ public class SearchProcessor {
 		if(searchDTO.getQueryvector() != null) {
 			Map<String, Object> parameters = new HashMap<>();
 			parameters.put("query_vector", searchDTO.getQueryvector());
-			Script script = new Script(ScriptType.INLINE,"painless","(cosineSimilarity(params.query_vector, doc['ml_contentTextVector']) + 1.0)",parameters);
+			Script script = new Script(ScriptType.INLINE,"painless","doc['ml_contentTextVector'].size() == 0 ? 0 : (cosineSimilarity(params.query_vector, doc['ml_contentTextVector']) + 1.0)",parameters);
 			queryBuilder = QueryBuilders.scriptScoreQuery(QueryBuilders.matchAllQuery(),script);
 			boolQuery.should(queryBuilder);
 			searchDTO.setSortBy(null);

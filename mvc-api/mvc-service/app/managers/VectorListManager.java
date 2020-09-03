@@ -48,9 +48,11 @@ public class VectorListManager {
             Map<String,Object> req = ((HashMap<String,Object>) (obj.get("request")));
             ArrayList<Object> text1 = (ArrayList<Object>) req.get("text");
             text1.add(text);
+            String vectorurl = Platform.config.hasPath("ml_vector_api") ? Platform.config.getString("ml_vector_api") + ":1729/ml/vector/search": "";
+            vectorurl = vectorurl.trim();
             logger.info("Text on which vector will be generated " + text1);
-            logger.info("Making vector api call " + "http://"+ Platform.config.getString("ml_vector_api") + ":1729/ml/vector/search");
-            Map<String,Object> respobj = JsonUtils.deserialize(Postman.POST(obj.toString(), "http://"+Platform.config.getString("ml_vector_api") + ":1729/ml/vector/search"),Map.class);
+            logger.info("Making vector api call " +  vectorurl );
+            Map<String,Object> respobj = JsonUtils.deserialize(Postman.POST(JsonUtils.serialize(obj),"http://"+vectorurl),Map.class);
             logger.info("Response received from vector search api " + respobj.toString());
             Map<String,Object> result = (HashMap<String,Object>) respobj.get("result");
             ArrayList<Object> contentTextVectorList = result.get("vector") != null ? (ArrayList<Object>) result.get("vector") : null;

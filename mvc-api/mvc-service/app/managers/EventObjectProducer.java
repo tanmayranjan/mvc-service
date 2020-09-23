@@ -21,7 +21,7 @@ public class EventObjectProducer {
                 Map<String,Object> context = (Map<String,Object>) eventObj.get("context");
                 context.put("channel", content.get("channel").toString());
                 Map<String,Object> edata = (Map<String,Object>) eventObj.get("edata");
-                edata.put("repository", "https://" + Platform.config.getString("sunbird_program_base_url") + "/api/content/v1/read/" + contentId);
+                edata.put("repository", "https://" + Platform.config.getString("sunbird_mvc_base_url") + "/api/content/v1/read/" + contentId);
                    if(content.containsKey("concepts")) {
                     content.remove("concepts");
                    }
